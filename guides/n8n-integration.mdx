@@ -1,0 +1,76 @@
+---
+title: "n8n"
+description: "Use LithoBlocks with n8n to send Slack messages and trigger workflows from templates and webhooks."
+---
+
+<Note>
+The LithoBlocks n8n node is currently in development. The steps below will be updated when the node is available. Until then, you can use the LithoBlocks API from n8n's HTTP Request node and Webhook node.
+</Note>
+
+This guide explains how to use LithoBlocks with [n8n](https://n8n.io/) to send Slack messages from workflows and to receive webhooks from LithoBlocks in n8n.
+
+## Prerequisites
+
+- LithoBlocks account and organization
+- n8n instance (cloud or self-hosted)
+- LithoBlocks n8n node (when available; until then, HTTP Request and Webhook nodes)
+- [Connecting Slack](/connecting-slack) for your LithoBlocks workspace
+
+##  Coming Soon: LithoBlocks n8n node
+
+When the LithoBlocks n8n node is released, you will be able to:
+
+1. **Trigger a workflow and send a message to Slack** — Use a LithoBlocks node in a workflow to compile a template with your data and send the message to a Slack channel or user. No custom HTTP needed.
+2. **Receive a webhook from LithoBlocks in an n8n workflow** — When a button or modal triggers a webhook in LithoBlocks, use a Webhook node to receive it and continue the workflow (e.g. update a database, call another API).
+
+Steps for these flows will be added here when the node is available.
+
+## Current workaround: Use the LithoBlocks API from n8n
+
+Until the LithoBlocks n8n node is available, use the **HTTP Request** node to call the LithoBlocks API and the **Webhook** node to receive LithoBlocks webhooks.
+
+### Get an API key
+
+1. Log into your [LithoBlocks dashboard](https://app.lithoblocks.com)
+2. Go to **API Keys** in your account or organization settings
+3. Create an API key with the scopes you need (e.g. `templates:read`, `messages:create`)
+4. Copy the key (it is shown only once)
+
+### Send a message from an n8n workflow
+
+1. In your workflow, add an **HTTP Request** node.
+2. **Method:** POST
+3. **URL:** `https://api.lithoblocks.com/templates/{{ $json.template_id }}/compile` (or use the send endpoint; replace `template_id` with your template ID or a workflow variable). Check the [API reference](/api-reference/introduction) for the exact endpoint and parameters.
+4. **Authentication:** Generic Credential Type → Header Auth: `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY` (or store the key in n8n credentials and reference it).
+5. **Body:** JSON with the data your template expects (same shape as sample data). Use n8n expressions to map data from previous nodes (e.g. `{{ $json.user }}`, `{{ $json.expense }}`).
+6. The response contains the compiled Slack blocks (compile) or send result (send). Use a subsequent Slack node if you compiled and need to post the blocks yourself, or use the send endpoint so LithoBlocks posts to Slack.
+
+See the [API reference](/api-reference/introduction) for authentication, base URL, and endpoint details. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.
+
+### Receive LithoBlocks webhooks in n8n
+
+When a button or modal in LithoBlocks triggers a webhook:
+
+1. In n8n, add a **Webhook** node to your workflow (trigger or mid-workflow). Use "Webhook" or "Webhook (Test)" and set the HTTP method to POST.
+2. Copy the webhook URL n8n provides (e.g. `https://your-n8n.com/webhook/...`).
+3. In LithoBlocks, create a [Webhook destination](/guides/webhook-destinations) with that URL and connect it to your button or modal submission.
+4. When a user clicks the button or submits the modal, LithoBlocks POSTs the payload to your n8n webhook. The payload is available in the Webhook node output; use it in subsequent nodes (e.g. Set node, HTTP Request, Slack).
+
+Payload structure depends on your [payload template](/guides/button-webhooks); use the same placeholders (e.g. `{{interaction.user_email}}`, `{{expense.id}}`) so n8n receives the data you need.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connecting Slack" icon="slack" href="/connecting-slack">
+    Connect your Slack workspace to LithoBlocks.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build a template and send a message.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Authentication, endpoints, and parameters.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Configure webhooks for buttons and modals.
+  </Card>
+</CardGroup>

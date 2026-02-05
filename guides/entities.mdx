@@ -1,0 +1,60 @@
+---
+title: "Entities"
+description: "Define reusable data structures (entities) to standardize sample data and improve template maintainability."
+---
+
+Entities are reusable data structure definitions — schemas for the data your templates expect. They help keep sample data consistent, validate structure early, and document expected formats.
+
+## Prerequisites
+
+- Understanding of [Placeholders](/guides/templates-placeholders) and [Sample data](/guides/templates-sample-data)
+- Basic knowledge of JSON and data types
+
+## What is an entity?
+
+An entity defines:
+
+- Field names
+- Field types (string, number, boolean, object, array)
+- Required vs. optional fields
+- Nested structures and array item types
+
+**Entity (schema):** Defines the shape (e.g. "Customer" with `id`, `name`, `email`, `vip_status`).
+
+**Sample data (instance):** Actual values that match that shape (e.g. `{ "customer": { "id": "CUST-123", "name": "John Doe", ... } }`).
+
+## Create an entity
+
+1. Go to **Entities** in the sidebar
+2. Click **Create Entity**
+3. Set **Name** (e.g. "Customer", "Order") and **Description**
+4. Add fields: **Field name**, **Type** (string, number, boolean, object, array), **Required** (yes/no)
+5. For nested objects, add child fields; for arrays, set the item type
+6. Save the entity
+
+## Use entities with templates
+
+- Attach an entity to a template (or to sample data) so the expected structure is documented and validated
+- Sample data that matches the entity ensures placeholders like `{{customer.name}}` have the right shape
+- Reuse the same entity across multiple templates for consistency
+
+## Benefits
+
+- **Consistency** — Same structure across templates
+- **Validation** — Catch missing or wrong types early
+- **Documentation** — Self-documenting expected data format
+- **Reusability** — Define once, use in many templates
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Use entity-shaped data in placeholders.
+  </Card>
+  <Card title="Sample data" icon="database" href="/guides/templates-sample-data">
+    Create and manage sample data sets for templates.
+  </Card>
+  <Card title="Table blocks" icon="table" href="/guides/templates-table-blocks">
+    Display tabular data in messages (experimental).
+  </Card>
+</CardGroup>

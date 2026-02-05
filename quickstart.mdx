@@ -1,80 +1,132 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Create your first Slack message template with dynamic data and send it to your workspace in 5 minutes."
 ---
 
-## Get started in three steps
+Learn how to create a simple Slack message template with dynamic data and send it to your workspace.
 
-Get your documentation site running locally and make your first customization.
+## Watch the demo
 
-### Step 1: Set up your local environment
+<div style={{ position: 'relative', paddingBottom: 'calc(83.1942% + 41px)', height: 0, width: '100%' }}>
+  <iframe
+    src="https://demo.arcade.software/j0e8vt6lf6b61hroViZg?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+    title="Create and send a personalized Slack welcome message template"
+    frameBorder="0"
+    loading="lazy"
+    allowFullScreen
+    allow="clipboard-write"
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', colorScheme: 'light' }}
+  />
+</div>
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Prerequisites
 
-### Step 2: Deploy your changes
+- Slack workspace connected (see [Connecting Slack](/connecting-slack))
+- Basic understanding of JSON data structures
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+## Step 1: Create a new template
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+1. Navigate to **Templates** in the sidebar
+2. Click **Create Template**
+3. Enter a name: `Welcome Message`
+4. Click **Create**
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+![Template creation dialog](/images/quickstart-template-create.png)
 
-### Step 3: Go live
+You'll be taken to the Template Builder.
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+## Step 2: Add your first block
+
+1. In the **Block Toolbox** above the canvas, find the **Header** block
+2. Click it to add it to your template
+3. In the text field, type: `Welcome to the Team!`
+
+![Header block added](/images/quickstart-header-block.png)
+
+## Step 3: Add dynamic content with placeholders
+
+1. Click **Section** in the Block Toolbox
+2. In the text area, type:
+
+```
+Hi {{user.name}}, welcome aboard! We're excited to have you join us as a {{user.role}}.
+```
+
+The `{{user.name}}` and `{{user.role}}` are **placeholders** — they're replaced with actual data when you send the message.
+
+![Section block with placeholders](/images/quickstart-section-placeholders.png)
+
+## Step 4: Add sample data for preview
+
+1. Click the **Sample Data** tab in the right panel
+2. Switch to **JSON editor**
+3. Add this sample data:
+
+```json
+{
+  "user": {
+    "name": "Alex Johnson",
+    "role": "Software Engineer"
+  }
+}
+```
+
+4. Click back to the **Preview** tab
+
+![Preview showing rendered message](/images/quickstart-preview-rendered.png)
+
+You should see your placeholders replaced with the sample data.
+
+<Tip>
+Preview frequently to check how your message looks before sending.
+</Tip>
+
+## Step 5: Save and send
+
+1. Click **Save** in the top right
+2. Click **Send to Slack**
+3. Select a channel or user
+4. The template is compiled with your sample data and sent
+5. Check your Slack workspace for the message
+
+![Message in Slack](/images/quickstart-message-slack.png)
+
+## What you've built
+
+You now have a template with:
+
+- Static content (header)
+- Dynamic placeholders (user name and role)
+- An interactive button
+- Sample data for testing
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
-
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Using placeholders" icon="code" href="/guides/templates-placeholders">
+    Learn advanced placeholder syntax for nested objects and arrays.
+  </Card>
+  <Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+    Explore all available block types.
+  </Card>
+  <Card title="Interactive buttons" icon="hand-pointer" href="/guides/interactive-buttons">
+    Make buttons trigger webhooks or open modals.
+  </Card>
+  <Card title="Button webhooks" icon="link" href="/guides/button-webhooks">
+    Connect buttons to external systems.
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+## Common issues
+
+<AccordionGroup>
+  <Accordion title="Placeholders show as literal text (e.g. {{user.name}})">
+    Make sure you have sample data in the Sample Data tab that matches your placeholder structure.
+  </Accordion>
+  <Accordion title="Template compilation failed">
+    Check that all placeholders reference fields that exist in your sample data. Syntax errors (e.g. `{{user..name}}` with double dots) will also cause failures.
+  </Accordion>
+  <Accordion title="Button doesn't appear in Slack">
+    Verify the Actions block is saved and the template compiled without errors.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,36 @@
+---
+title: "Compile vs send"
+description: "When to compile templates for your own delivery vs send through LithoBlocks for full platform features."
+---
+
+You can either get compiled JSON blocks and deliver the message yourself (**compile**), or have LithoBlocks compile and deliver the message via its Slack app (**send**). The choice determines whether you get built-in interactivity, modals, and webhook delivery or handle delivery and interactivity yourself.
+
+## Compile
+
+**What it does:** Compile takes your template and the data you provide (in the API request) and returns the JSON blocks for the Slack message. It does not post to Slack.
+
+You then send the compiled message from your own system or your own Slack connections. Button interactions and webhook delivery do not work out-of-the-box or off-the-shelf; they can be configured with your own Slack app (e.g. interactivity URL, request URL) if you need them.
+
+**Where it's available:** The [Compile](/api-reference/introduction) API endpoint. Compilation consumes credits and usage is logged per your organization.
+
+## Send
+
+**What it does:** Send uses the LithoBlocks Slack app to compile the template with your data and post the message to Slack. LithoBlocks owns the delivery and the Slack app connection.
+
+**Where it's available:** Send API routes, send from the builder (testing), and send from the slash command flow.
+
+You get full functionality of the LithoBlocks platform and services: actions, interactivity, modals, message updates, and webhook delivery. No additional configuration is required besides connecting the LithoBlocks Slack app to your Slack organization.
+
+## When to use which
+
+| Use **compile** when … | Use **send** when … |
+|------------------------|----------------------|
+| You need to post from your own app, integration, or Slack app | You want LithoBlocks to post via its Slack app |
+| You will handle interactivity (buttons, modals) yourself or don't need it | You want buttons, modals, and webhooks to work without wiring your own Slack app |
+| You only need the final block JSON (e.g. for auditing, custom pipelines) | You want one-step send with full platform features |
+
+## Further reading
+
+- [API reference](/api-reference/introduction) — Compile and send endpoints
+- [Connecting Slack](/connecting-slack) — Connect the LithoBlocks Slack app for send
+- [Architecture overview](/architecture/overview) — How data flows through LithoBlocks

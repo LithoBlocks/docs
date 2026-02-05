@@ -1,0 +1,54 @@
+---
+title: "n8n AI"
+description: "Use LithoBlocks templates from n8n AI nodes so the AI decides what to send without building Slack blocks."
+---
+
+Use LithoBlocks with n8n AI nodes so the AI decides **which** template and **what** data to send; an HTTP Request node calls the LithoBlocks API. The AI does not need to output Block Kit JSON, so you use far fewer tokens and get consistent Slack messages. The resulting LLM savings help offset LithoBlocks cost, with net cost reduction at higher volumes.
+
+## Prerequisites
+
+- LithoBlocks API key and at least one template
+- [Connecting Slack](/connecting-slack) for your LithoBlocks workspace
+- n8n with AI nodes (e.g. OpenAI, Anthropic)
+- Optional: [n8n integration](/guides/n8n-integration) for HTTP and Webhook basics
+
+## Why use LithoBlocks with n8n AI
+
+- **AI decides content, LithoBlocks builds the message** — The AI node outputs `template_id` and `payload` (e.g. from user input or previous nodes); the HTTP Request node calls LithoBlocks. No need for the AI to output Block Kit JSON.
+- **Lower LLM cost** — The AI outputs a small structured object instead of long Slack block structures. LLM savings help offset LithoBlocks cost; at higher volumes, net cost reduction.
+- **Consistency** — Same layout every time; fewer malformed blocks.
+
+## Pattern
+
+1. **AI node** — Use an AI node (e.g. OpenAI, Anthropic) with a system or user prompt that asks the AI to return structured data: `template_id` and `payload` (JSON). Use structured output or JSON mode if available so the output is parseable.
+2. **HTTP Request node** — Add an HTTP Request node that POSTs to LithoBlocks:
+   - **URL:** `https://api.lithoblocks.com/templates/{template_id}/send` (or `/compile`). Set `{template_id}` from the AI node output (e.g. the expression that reads the AI output field for template_id).
+   - **Headers:** `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`
+   - **Body:** JSON from the AI node output (e.g. the payload field from the AI node). Map `template_id` and `payload` from the AI node output into the URL and body.
+3. **Optional:** Use a **Webhook** node to receive LithoBlocks webhooks (e.g. button clicks) and feed into another AI node or workflow. See the [n8n integration](/guides/n8n-integration) for webhook setup.
+
+## Minimal example
+
+1. **AI node (e.g. OpenAI):** Prompt: "Return a JSON object with two keys: template_id (string, the LithoBlocks template ID to use, e.g. 'tmpl_abc123') and payload (object matching the template's placeholders). Example: For an approval message use template_id and payload with keys like user.name, request.title, request.id."
+   - Enable JSON/structured output if the node supports it so the response is valid JSON.
+2. **HTTP Request node:** Method POST. URL: `https://api.lithoblocks.com/templates/` + (AI output field for template_id) + `/send`. Body: (AI output field for payload). Headers: Authorization Bearer + your API key, Content-Type application/json.
+3. **Success/error:** Use the HTTP Request node output (status, body) for success or error handling in the next nodes.
+
+See the [API reference](/api-reference/introduction) for the send endpoint parameters (e.g. channel, user) if you need to pass them in the body.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="AI agents overview" icon="robot" href="/guides/ai-agents-overview">
+    Why templates and agents fit together.
+  </Card>
+  <Card title="n8n integration" icon="link" href="/guides/n8n-integration">
+    HTTP and Webhook setup in n8n.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Endpoints, auth, and parameters.
+  </Card>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Template data shape and syntax.
+  </Card>
+</CardGroup>

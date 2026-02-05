@@ -1,0 +1,118 @@
+---
+title: "Block types"
+description: "Use each Slack block type to build rich, interactive messages with the right layout for your use case."
+---
+
+Slack messages are built from **blocks** — modular components you combine to build exactly what you need. This guide covers available block types, when to use them, and how to configure them.
+
+## Prerequisites
+
+- Completed [Quickstart](/quickstart)
+- Understanding of [Placeholders](/guides/templates-placeholders)
+
+## Block types overview
+
+| Block Type | Purpose | Use Cases |
+|------------|---------|-----------|
+| **Header** | Large, bold title | Message titles, section headers |
+| **Section** | Main content area | Text with optional image/button |
+| **Context** | Small supplementary info | Metadata, timestamps, authors |
+| **Actions** | Interactive buttons | User actions, navigation |
+| **Divider** | Visual separator | Separating content sections |
+| **Rich Text** | Formatted text | Lists, quotes, code blocks |
+| **Table** | Structured data | Reports, comparisons, data lists |
+
+## Header block
+
+Use for the main message title. Keep text short (under 150 characters).
+
+**Plain text:**
+```
+Project Status Update
+```
+
+**With placeholders:**
+```
+Welcome {{user.name}}!
+```
+
+<Tip>
+Put the header at the top of your message. Use sentence case or title case.
+</Tip>
+
+## Section block
+
+The main content block. Sections contain text and can include an optional accessory (image, button, or select menu) on the right.
+
+**Basic text:**
+```
+Your order has been shipped!
+```
+
+**With placeholders:**
+```
+Hi {{customer.name}}! Your order #{{order.id}} has been shipped and will arrive on {{delivery.date}}.
+```
+
+**With fields (two columns):** Left: `Status: {{order.status}}` · Right: `Total: ${{order.total}}`
+
+## Context block
+
+Small, muted text for metadata like timestamps or authors. Place at the bottom of sections.
+
+**Example elements:**
+- `Created by {{author.name}}` · `•` · `{{created_at}}`
+
+Renders as: *Created by Sarah Chen • January 15, 2025*
+
+## Actions block
+
+Contains interactive buttons. Each button needs:
+
+- **Label**: Text on the button (e.g. "Approve", "View Details")
+- **Action ID**: Unique identifier (e.g. `approve_request`)
+- **Style**: Primary (green), Danger (red), or Default (gray)
+- **Value**: Optional data when clicked (e.g. `{{request.id}}`)
+
+Limit to 5 buttons per Actions block. See [Interactive buttons](/guides/interactive-buttons) for connecting buttons to webhooks and modals.
+
+## Divider block
+
+A horizontal line between sections. Use sparingly (1–2 per message).
+
+## Rich Text block
+
+Formatted text with lists, quotes, code blocks, and inline styling.
+
+**Formatting:** `*bold*` · `_italic_` · `` `code` `` · `<url|text>` for links
+
+## Table block
+
+Display tabular data. Configure data path (e.g. `products`) and columns with placeholders like `{{this.name}}`, `{{this.quantity}}`. See [Table blocks](/guides/templates-table-blocks) for structure, columns, and advanced options (experimental feature).
+
+## Combining blocks
+
+**Typical layout:**
+1. Header — message title  
+2. Section — primary content  
+3. Divider — visual break  
+4. Section — additional details  
+5. Context — metadata  
+6. Actions — buttons  
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Dynamic data syntax for blocks.
+  </Card>
+  <Card title="Table blocks" icon="table" href="/guides/templates-table-blocks">
+    Structured tabular data (experimental).
+  </Card>
+  <Card title="Directives" icon="repeat" href="/guides/templates-directives">
+    Generate repeating blocks with #each.
+  </Card>
+  <Card title="Interactive buttons" icon="hand-pointer" href="/guides/interactive-buttons">
+    Configure buttons and actions.
+  </Card>
+</CardGroup>

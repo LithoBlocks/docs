@@ -1,33 +1,63 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API introduction"
+description: "LithoBlocks API — manage templates, entities, and organizations with scope-based authorization."
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The LithoBlocks API lets you manage templates, entities, and organizations programmatically with scope-based authorization. Use it to create and update templates, compile messages, manage entities, and administer your organization. The API supports both **compile** (get JSON blocks and send from your own system) and **send** (LithoBlocks posts via its Slack app with full platform features); see [Compile vs send](/architecture/compile-vs-send) for when to use which.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- **Production:** `https://api.lithoblocks.com`
+- **Development:** `http://localhost:8787`
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All endpoints use **LithoBlocks API keys** with Bearer authentication.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+### Getting an API key
+
+1. Log into your LithoBlocks organization dashboard
+2. Go to **API Keys** in your account settings
+3. Create an API key and select the scopes you need
+4. Copy the key (it is shown only once)
+
+### Using your API key
+
+Send the key in the `Authorization` header:
+
 ```
+Authorization: Bearer lb_live_sk_example_key_here
+```
+
+### Scopes and roles
+
+Scopes are tied to your organization role:
+
+- **All roles:** `templates:read`, `messages:create`, `entities:read`
+- **Member+:** `templates:write`, `entities:write`
+- **Admin+:** `organizations:admin`, `users:admin`
+
+When creating an API key, you can only select scopes your role allows. Use the minimum scopes needed for your use case.
+
+<Warning>
+Never share API keys or commit them to version control. Store them in environment variables and rotate them regularly.
+</Warning>
+
+## Organization isolation
+
+All API access is scoped to your organization. You can only access resources in the organization where the API key was created. Cross-organization access is not supported.
+
+## Endpoints
+
+The **LithoBlocks API** section in the sidebar lists all endpoints generated from the OpenAPI specification. Use the playground on each endpoint page to try requests with your API key.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Templates" icon="file-lines" href="/guides/templates-blocks">
+    Build templates in the UI, then manage them via the API.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get started with templates and Slack.
+  </Card>
+</CardGroup>

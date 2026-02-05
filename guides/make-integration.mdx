@@ -1,0 +1,76 @@
+---
+title: "Make"
+description: "Use LithoBlocks with Make to send Slack messages and trigger scenarios from templates and webhooks."
+---
+
+<Note>
+The LithoBlocks Make custom app is currently in development. The steps below will be updated when the app is available. Until then, you can use the LithoBlocks API from Make's HTTP or Webhooks modules.
+</Note>
+
+This guide explains how to use LithoBlocks with [Make](https://www.make.com/) (formerly Integromat) to send Slack messages from scenarios and to receive webhooks from LithoBlocks in Make.
+
+## Prerequisites
+
+- LithoBlocks account and organization
+- Make account
+- LithoBlocks Make app (when available; until then, HTTP module)
+- [Connecting Slack](/connecting-slack) for your LithoBlocks workspace
+
+##  Coming Soon: LithoBlocks Make App
+
+When the LithoBlocks Make app is released, you will be able to:
+
+1. **Trigger from Make and send a message to Slack** — Use a LithoBlocks module in a scenario to compile a template with your data and send the message to a Slack channel or user. No custom HTTP needed.
+2. **Receive a webhook from LithoBlocks in a Make scenario** — When a button or modal triggers a webhook in LithoBlocks, route that webhook to a Make webhook module and process the payload in your scenario.
+
+Steps for these flows will be added here when the app is available.
+
+## Current workaround: Use the LithoBlocks API from Make
+
+Until the Make app is available, use Make's **HTTP** module to call the LithoBlocks API.
+
+### Get an API key
+
+1. Log into your [LithoBlocks dashboard](https://app.lithoblocks.com)
+2. Go to **API Keys** in your account or organization settings
+3. Create an API key with the scopes you need (e.g. `templates:read`, `messages:create`)
+4. Copy the key (it is shown only once)
+
+### Send a message from a Make scenario
+
+1. In your scenario, add an **HTTP** module (e.g. "Make a request").
+2. **URL:** `https://api.lithoblocks.com/templates/{template_id}/compile` (or the send endpoint if you use send instead of compile). Check the [API reference](/api-reference/introduction) for the exact endpoint and parameters.
+3. **Method:** POST
+4. **Headers:** `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`
+5. **Body:** JSON with the data your template expects (same shape as sample data). Map your scenario data to this structure.
+6. The response contains the compiled Slack blocks (compile) or send result (send). Use a subsequent Slack module if you compiled and need to post the blocks yourself, or use the send endpoint so LithoBlocks posts to Slack.
+
+See the [API reference](/api-reference/introduction) for authentication, base URL, and endpoint details. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.
+
+### Receive LithoBlocks webhooks in Make
+
+When a button or modal in LithoBlocks triggers a webhook:
+
+1. In Make, create a scenario that starts with a **Webhooks** module (e.g. "Custom webhook").
+2. Copy the webhook URL Make provides.
+3. In LithoBlocks, create a [Webhook destination](/guides/webhook-destinations) with that URL and connect it to your button or modal submission.
+4. When a user clicks the button or submits the modal, LithoBlocks POSTs the payload to your Make webhook. In Make, map the payload fields and continue your scenario (e.g. update a sheet, call another API).
+
+Payload structure depends on your [payload template](/guides/button-webhooks); use the same placeholders (e.g. `{{interaction.user_email}}`, `{{expense.id}}`) so Make receives the data you need.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connecting Slack" icon="slack" href="/connecting-slack">
+    Connect your Slack workspace to LithoBlocks.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build a template and send a message.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Authentication, endpoints, and parameters.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Configure webhooks for buttons and modals.
+  </Card>
+</CardGroup>

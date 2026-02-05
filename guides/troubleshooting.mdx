@@ -1,0 +1,98 @@
+---
+title: "Troubleshooting"
+description: "Common issues when working with LithoBlocks templates, Slack connection, and webhooks — and how to resolve them."
+---
+
+This guide covers frequent issues and fixes for templates, placeholders, directives, Slack connection, and webhooks.
+
+## Template issues
+
+### Placeholders not rendering
+
+**Symptom:** Placeholders like `{{user.name}}` appear as literal text in Slack.
+
+**Causes:** Missing or mismatched sample data; wrong placeholder path or syntax.
+
+**Solutions:**
+
+- Ensure sample data has the structure your placeholders expect. For `{{user.name}}`, data must include `user: { name: "..." }`.
+- Check the **Data** tab in the preview to see resolved data.
+- Verify placeholder syntax (no double dots, correct path).
+
+### Directive blocks not processing
+
+**Symptom:** `#each` or `#if` shows empty content or doesn't repeat.
+
+**Causes:** Incorrect array/condition path; empty or undefined array; no child blocks inside the directive.
+
+**Solutions:**
+
+- Confirm the directive's array path (e.g. `users`) matches your data (e.g. `"users": [...]`).
+- Ensure the array exists and has items in sample data.
+- Add at least one block inside the directive container to repeat.
+
+### Table blocks not displaying
+
+**Symptom:** Table appears empty or "No data available".
+
+**Causes:** Data isn't an array of objects; column path wrong; columns hidden.
+
+**Solutions:**
+
+- Use an array for the table data path (e.g. `products`) and ensure each item is an object.
+- Check column visibility and that placeholders like `{{this.name}}` match the item shape.
+
+## Slack connection
+
+### Connection failed
+
+**Symptom:** OAuth fails or returns an error.
+
+**Solutions:** Allow popups from the platform; try another browser or network; check with workspace admin about app restrictions.
+
+### Messages not sending
+
+**Symptom:** Send returns an error.
+
+**Check:** Connection status in **Integrations**; bot added to target channel; for DMs, user is in workspace. View detailed errors on the **Usage** page.
+
+### Buttons don't respond
+
+**Symptom:** Clicking a button does nothing.
+
+**Causes:** Message sent before connection was established; token revoked; interactivity handler not deployed or misconfigured.
+
+**Solutions:** Resend the message after ensuring Slack is connected; check integration and edge function logs.
+
+## Webhooks
+
+### Webhook not received
+
+**Symptom:** Your API doesn't get the request when a button is clicked or a modal is submitted.
+
+**Check:** Webhook URL and method in **Integrations** → **Webhooks**; destination connected to the button/modal; **Usage** → **Interactions** for delivery logs and errors.
+
+### Webhook returns error
+
+**Symptom:** Logs show 4xx/5xx or timeout.
+
+**Solutions:** Verify your endpoint accepts the method and payload; check auth headers; increase timeout if needed; retry policy in webhook destination.
+
+## Logs and debugging
+
+- **Usage** page — Message sends, interactions, and webhook delivery.
+- **Integrations** — Slack connection status and webhook destinations.
+- Preview **Data** and **JSON** tabs — Resolved placeholders and compiled block structure.
+
+For details on Credit, Interaction, Message activity, and Webhook logs, see [Understanding logs](/guides/logs).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connecting Slack" icon="slack" href="/connecting-slack">
+    Connect workspace and permissions.
+  </Card>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Fix placeholder and data structure issues.
+  </Card>
+</CardGroup>

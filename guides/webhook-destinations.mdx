@@ -1,0 +1,92 @@
+---
+title: "Webhook destinations"
+description: "Configure reusable webhook destinations with authentication, payload templating, retries, and monitoring."
+---
+
+Webhook destinations define where button clicks and modal submissions send data. Instead of hardcoding URLs in each button or modal, you create reusable destination configurations.
+
+**Benefits:** Reusable (define once, use in many buttons/modals), secure (auth stored separately), manageable (update endpoint without changing templates), traceable (all webhooks to a destination logged together).
+
+## Prerequisites
+
+- Understanding of [Button webhooks](/guides/button-webhooks) or [Modal submissions](/guides/modals-submissions)
+- An endpoint URL and optional auth (API key, Bearer, Basic)
+
+## Creating webhook destinations
+
+### Basic destination
+
+1. Go to **Integrations** → **Webhooks**
+2. Click **Create Webhook Destination**
+3. Set **Name** (e.g. "Support Ticket API"), **URL** (e.g. `https://api.example.com/tickets`), **Method** (POST, PUT, or PATCH), and optional **Description**
+
+### With authentication
+
+Add headers for secured endpoints:
+
+- **Bearer:** `Authorization: Bearer sk_live_abc123...`
+- **API key:** `X-API-Key: your-api-key`
+- **Basic:** `Authorization: Basic base64(username:password)`
+- **Custom headers:** Any key/value (e.g. `Content-Type: application/json`, `X-Request-ID: {{request_id}}`)
+
+Store sensitive keys in your organization's secure key store and reference them in the destination so they are substituted at request time.
+
+### Destination properties
+
+| Property | Description | Required |
+|----------|-------------|----------|
+| name | Friendly name | Yes |
+| url | Full webhook endpoint URL | Yes |
+| method | POST, PUT, PATCH | Yes |
+| description | What this webhook does | No |
+| headers | HTTP headers (auth, custom) | No |
+| timeout_ms | Request timeout (default: 5000) | No |
+| retry_config | Retry behavior | No |
+
+## Payload templating
+
+In the destination or in the button/modal action, define a **payload template** (JSON) with placeholders. Placeholders are replaced with interaction and template data when the webhook is sent.
+
+**Examples:**
+
+- Template data: `"expense_id": "{{expense.id}}"`, `"approved_by": "{{user.email}}"`
+- Interaction: `"user_id": "{{interaction.user_id}}"`, `"button_value": "{{interaction.button_value}}"`
+- Slack context: `"channel": "{{slack.channel_id}}"`, `"message_ts": "{{slack.message_ts}}"`
+
+Use nested objects and arrays in the payload as needed; structure must match what your API expects.
+
+## Retry configuration
+
+Configure retries for failed webhooks (e.g. 5xx, timeouts, connection failures). Typical settings: `max_retries`, `initial_delay_ms`, `max_delay_ms`, `backoff_multiplier`. 4xx errors are not retried.
+
+For endpoints that are not idempotent, set `max_retries: 0` or disable retries. When retries are on, include an `idempotency_key` in the payload (e.g. `{{interaction.id}}`) so your API can deduplicate.
+
+## Monitoring webhooks
+
+View webhook activity and debug failures on the **Usage** page:
+
+- Filter by date, template, status (success/failed/timeout)
+- For each call: request payload, response status, response body, error message, processing time, retry attempts
+
+See [Understanding logs](/guides/logs) for Credit, Interaction, and Webhook log details and how to interpret status codes and errors.
+
+## Webhook usage in templates
+
+When you add a **Webhook** action to a button or to a modal's **On submit**, you select a webhook destination and (optionally) customize the payload. The same destination can be used by many buttons and modals. Use [Button webhooks](/guides/button-webhooks) and [Modal submissions](/guides/modals-submissions) for step-by-step setup; use this guide for advanced configuration (auth, retries, payload structure) and [Understanding logs](/guides/logs) when debugging delivery or response errors.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Button webhooks" icon="hand-pointer" href="/guides/button-webhooks">
+    Connect buttons to webhook destinations.
+  </Card>
+  <Card title="Modal submissions" icon="window-maximize" href="/guides/modals-submissions">
+    Send modal form data to webhooks.
+  </Card>
+  <Card title="Understanding logs" icon="list" href="/guides/logs">
+    View and debug webhook delivery and responses.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/guides/troubleshooting">
+    Common webhook and Slack issues.
+  </Card>
+</CardGroup>

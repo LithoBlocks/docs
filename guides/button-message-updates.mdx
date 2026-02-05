@@ -1,0 +1,64 @@
+---
+title: "Button message updates"
+description: "Update Slack messages when users click buttons — replace the button, replace the whole message, or append a response block."
+---
+
+Configure buttons to update the message after a click. Use this for approval flows, status changes, and feedback without writing custom code.
+
+## Prerequisites
+
+- A template with [Interactive buttons](/guides/interactive-buttons)
+- Optional: completed [Button webhooks](/guides/button-webhooks)
+- Basic understanding of [Placeholders](/guides/templates-placeholders)
+
+## Update strategies
+
+When you add a **Message Update** action to a button, choose how the message changes:
+
+| Strategy | What changes | Use case |
+|----------|--------------|----------|
+| **Replace self** | Only the clicked button | "Pending" → "Approved"; remove button after click |
+| **Replace all** | Entire message | Turn request into confirmation; show new state |
+| **Add response block** | Append new blocks at the end | Add a comment or action history; keep original content |
+| **Replace target block** | One block by `block_id` | Update a status section or specific panel |
+
+## Replace self
+
+Replaces only the button that was clicked.
+
+**Example:** Original: `[Approve] [Reject]` → After clicking Approve: "✓ Approved by John Doe"
+
+Good for: status indicators, toggles, removing actions after completion.
+
+## Replace all
+
+Replaces the whole message with new content. Define the new blocks (or use a template); they can use placeholders that reference the original message or interaction (e.g. approver, timestamp).
+
+Good for: showing detailed results, turning a request into a thank-you message, full state change.
+
+## Add response block
+
+Appends new blocks at the end. Original content stays; you add a line like "✓ Marked complete by Jane at 2:45 PM."
+
+Good for: comments, action history, audit trail.
+
+## Replace target block
+
+Replaces a specific block identified by its `block_id`. Use when only one section (e.g. "Status: Pending") should change.
+
+Good for: status sections, single-panel updates.
+
+## Using original message data
+
+In the update template you can use placeholders that reference the interaction (e.g. `{{interaction.user_email}}`) or data that was in the original message. This keeps updates dynamic and context-aware.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Interactive buttons" icon="hand-pointer" href="/guides/interactive-buttons">
+    Add and configure buttons.
+  </Card>
+  <Card title="Button webhooks" icon="link" href="/guides/button-webhooks">
+    Trigger APIs when buttons are clicked.
+  </Card>
+</CardGroup>

@@ -1,0 +1,92 @@
+---
+title: "Examples"
+description: "End-to-end recipes for approval flows, modal submissions, and tabular data in Slack."
+---
+
+These examples show complete workflows you can copy and adapt. Each links to the detailed guides for configuration.
+
+## Prerequisites
+
+- Completed [Quickstart](/quickstart)
+- [Connecting Slack](/connecting-slack) (for sending messages)
+- Basic familiarity with [Placeholders](/guides/templates-placeholders) and [Blocks](/guides/templates-blocks)
+
+## Recipe 1: Approval flow with button webhook
+
+**Goal:** Send a message with Approve/Reject buttons; when the user clicks, POST to your API and optionally update the message.
+
+**Steps:**
+
+1. **Create a webhook destination** — Integrations → Webhooks → Create. Set URL (e.g. `https://api.yourcompany.com/approvals`), Method POST, and auth headers if needed. See [Webhook destinations](/guides/webhook-destinations).
+2. **Build the template** — Add Header (e.g. "Expense approval"), Section with placeholders (e.g. `Amount: {{expense.amount}}`, `Submitted by {{user.name}}`), then an Actions block with two buttons: "✓ Approve" (Primary, action_id `approve_expense`) and "✗ Reject" (Danger, action_id `reject_expense`). Set each button's Value to `{{expense.id}}` or similar.
+3. **Add webhook to each button** — In button settings, Add Action → Webhook; select your destination; set payload, e.g. `{ "action": "approve", "expense_id": "{{expense.id}}", "approved_by": "{{interaction.user_email}}" }` (and `"action": "reject"` for the Reject button). See [Button webhooks](/guides/button-webhooks).
+4. **Optional: message update** — Add a Message Update action (e.g. Replace self) so the button becomes "✓ Approved" or "✗ Rejected" after click. See [Button message updates](/guides/button-message-updates).
+5. **Sample data** — Add sample data with `expense` and `user` so the preview and send work. See [Sample data](/guides/templates-sample-data).
+6. **Test** — Send to a channel, click a button, then check Usage → Interactions for webhook delivery.
+
+<CardGroup cols={2}>
+  <Card title="Interactive buttons" icon="hand-pointer" href="/guides/interactive-buttons">
+    Add and configure buttons.
+  </Card>
+  <Card title="Button webhooks" icon="link" href="/guides/button-webhooks">
+    Connect buttons to your API.
+  </Card>
+</CardGroup>
+
+---
+
+## Recipe 2: Modal submission to webhook and Slack update
+
+**Goal:** User opens a modal from a button, fills a form, submits; you POST the form data to your API and append a confirmation line to the original message.
+
+**Steps:**
+
+1. **Webhook destination** — Create a destination for your API (e.g. feedback or approval-with-comment endpoint). See [Webhook destinations](/guides/webhook-destinations).
+2. **Modal** — Create a modal with title and inputs (e.g. Comment text area, Submit/Cancel). Bind inputs to your data model if needed. See [Modal basics](/guides/modals-basics) and [Modal data binding](/guides/modals-data-binding).
+3. **On submit** — In the modal, under On submit: add Webhook (select destination; payload can include form fields and `{'{'}interaction.user_email{'}'}` etc.) and Message update (e.g. Add response block with "✓ Submitted by `{'{'}interaction.user_email{'}'}` at `{'{'}timestamp{'}'}`"). See [Modal submissions](/guides/modals-submissions).
+4. **Open modal from a button** — In your template, add a button with action "Open modal" and select this modal. When the user clicks, the modal opens; on submit, the webhook fires and the message updates.
+5. **Test** — Send the template, click the button, submit the modal; check Usage → Interactions and the updated message.
+
+<CardGroup cols={2}>
+  <Card title="Modal basics" icon="window-maximize" href="/guides/modals-basics">
+    Create modals and inputs.
+  </Card>
+  <Card title="Modal submissions" icon="paper-plane" href="/guides/modals-submissions">
+    Webhook and message update on submit.
+  </Card>
+</CardGroup>
+
+---
+
+## Recipe 3: Table from API data
+
+**Goal:** Display a list of items (e.g. order line items, tasks) in a table in Slack using a template and sample data that mirrors your API response.
+
+**Steps:**
+
+1. **Sample data** — Create sample data with an array of objects, e.g. `items` or `tasks`, each with fields like `name`, `quantity`, `price`, `status`. Match the structure your API will send. See [Sample data](/guides/templates-sample-data).
+2. **Table block** — Add a Table block to your template. Set the array path (e.g. `items`). Add columns: Header and data path for each field (e.g. Product → `name`, Qty → `quantity`, Price → `price`). Use format strings like `${{value}}` for currency. See [Table blocks](/guides/templates-table-blocks) (experimental).
+3. **Optional: Header and context** — Add a Header above the table (e.g. "Order summary") and a Section or Context below with totals if you compute them in your data.
+4. **Send** — When you send the template (from the UI or API), pass the same shape of data (e.g. from your API); the table will render one row per array item.
+
+<CardGroup cols={2}>
+  <Card title="Sample data" icon="database" href="/guides/templates-sample-data">
+    Structure data for templates.
+  </Card>
+  <Card title="Table blocks" icon="table" href="/guides/templates-table-blocks">
+    Display tabular data (experimental).
+  </Card>
+</CardGroup>
+
+---
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build your first template.
+  </Card>
+  <Card title="Template design" icon="palette" href="/guides/template-design">
+    Best practices for clarity and maintainability.
+  </Card>
+</CardGroup>

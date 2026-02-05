@@ -1,0 +1,42 @@
+---
+title: "Modal data binding"
+description: "Pre-fill modal form fields with data from the message that triggered the modal."
+---
+
+Data binding passes information from the Slack message into the modal so fields are pre-filled. Users see context-aware forms without re-entering data.
+
+## Prerequisites
+
+- Understanding of [Modal basics](/guides/modals-basics)
+- Familiarity with [Placeholders](/guides/templates-placeholders)
+- Experience with [Interactive buttons](/guides/interactive-buttons)
+
+## How it works
+
+1. The template is rendered with sample data (e.g. `{ user: { name: "John", email: "john@example.com" } }`)
+2. The message is sent to Slack with data embedded in metadata
+3. The user clicks a button that opens a modal
+4. Data bindings are evaluated using the original message data
+5. The modal opens with fields pre-filled
+
+## Binding types
+
+- **Simple values** — Map a placeholder path to a field (e.g. `user.name` → "Full name")
+- **Array transformations** — Use an array in your data to populate select options
+- **Computed values** — Concatenate or format data for a field
+
+## Configure bindings
+
+1. Create your modal and add input fields (see [Modal basics](/guides/modals-basics))
+2. For each field you want to pre-fill, set a **data binding** path that matches your template data (e.g. `user.email`, `request.id`)
+3. Connect the button to open this modal; when the message has that data, the modal will open with those fields filled
+
+<Tip>
+Use the same data structure in your template's sample data and in your bindings so the modal receives the expected values.
+</Tip>
+
+## Next steps
+
+<Card title="Modal submissions" icon="paper-plane" href="/guides/modals-submissions">
+  Process form submit with webhooks and message updates.
+</Card>

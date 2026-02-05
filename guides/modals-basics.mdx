@@ -1,0 +1,63 @@
+---
+title: "Modals basics"
+description: "Create interactive Slack modal forms that open when users click buttons and collect structured input."
+---
+
+Modals are pop-up forms in Slack that appear when users click specially configured buttons. Use them for feedback, approvals with comments, data entry, and surveys.
+
+## Prerequisites
+
+- Basic understanding of [Interactive buttons](/guides/interactive-buttons)
+- Familiarity with [Placeholders](/guides/templates-placeholders)
+- Slack workspace connected
+
+## Modal structure
+
+A modal has:
+
+1. **Title** — At the top (max 24 characters)
+2. **Input blocks** — Form fields (text, textarea, select, checkboxes, datepicker, etc.)
+3. **Submit button** — Custom label (default: "Submit")
+4. **Close button** — Custom label (default: "Cancel")
+
+## Input types
+
+| Input Type | Description | Use Case |
+|------------|-------------|----------|
+| `plain_text_input` | Single-line text | Names, IDs, short answers |
+| `textarea` | Multi-line text | Comments, descriptions |
+| `static_select` | Dropdown, single selection | One option from a list |
+| `multi_static_select` | Dropdown, multiple selections | Categories, tags |
+| `checkboxes` | Multiple checkboxes | Multiple options (visible) |
+| `radio_buttons` | Single selection (visible) | One option (visible) |
+| `datepicker` | Date selector | Deadlines, scheduling |
+| `timepicker` | Time selector | Appointment times |
+
+## Create a modal
+
+1. Go to **Modals** in the sidebar
+2. Click **Create Modal**
+3. Set **Name** (internal), **Title** (shown to users), and optional **Description**
+4. Optionally set **Submit Label** and **Close Label**
+5. Add input blocks for each field (label, type, required/optional, validation)
+6. Save the modal
+
+## Open a modal from a button
+
+1. Open your template and select a button
+2. In button settings, click **Add Action** → **Open Modal**
+3. Select your modal definition
+4. Save the template
+
+When the user clicks the button, the modal opens. Use [Data binding](/guides/modals-data-binding) to pre-fill fields from the message, and [Modal submissions](/guides/modals-submissions) to handle form submit (webhooks, message updates).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Modal data binding" icon="link" href="/guides/modals-data-binding">
+    Pre-fill modal fields from the message.
+  </Card>
+  <Card title="Modal submissions" icon="paper-plane" href="/guides/modals-submissions">
+    Handle submit with webhooks and message updates.
+  </Card>
+</CardGroup>
