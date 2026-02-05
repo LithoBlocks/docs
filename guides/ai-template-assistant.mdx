@@ -1,0 +1,185 @@
+---
+title: "AI Template Assistant"
+description: "Use AI to jumpstart your templates, create blocks in bulk, generate sample data, and polish existing templates with best practices."
+---
+
+The **AI Template Assistant** helps you build templates faster by generating blocks, creating sample data, and applying LithoBlocks best practices. Access it from the bottom right corner of the Template Builder to jumpstart new templates or enhance existing ones.
+
+## Prerequisites
+
+- Basic understanding of [Templates](/quickstart)
+- Familiarity with [Blocks](/guides/templates-blocks) and [Placeholders](/guides/templates-placeholders)
+- Access to the Template Builder
+
+## Finding the AI Template Assistant
+
+The AI Template Assistant is located in the **bottom right corner** of the Template Builder. Click the assistant icon to open the chat interface where you can describe what you want to build.
+
+<Tip>
+The assistant understands LithoBlocks syntax, block types, and templating best practices, so you can describe your needs in natural language.
+</Tip>
+
+## Jumpstarting new templates
+
+Use the AI Template Assistant to quickly create templates from scratch.
+
+### Starting from scratch
+
+1. Open a new or empty template in the Template Builder
+2. Click the AI Template Assistant icon (bottom right)
+3. Describe what you want to build, for example:
+   - "Create a welcome message template with a header, user greeting, and a 'Get Started' button"
+   - "Build an expense approval template with expense details and Approve/Reject buttons"
+   - "Make a project status update template with sections for tasks, status, and assignees"
+4. The assistant generates blocks based on your description
+5. Review the draft changes (see [Reviewing changes](#reviewing-changes))
+
+### Using existing sample data
+
+If your template already has sample data:
+
+1. Open the template with sample data attached
+2. Open the AI Template Assistant
+3. Describe what you want to build, referencing your data structure
+4. The assistant uses your existing sample data to craft placeholders and structure
+
+**Example:** "Create a template that displays the user's name, role, and a list of their tasks using my existing sample data"
+
+## Creating sample data
+
+The AI Template Assistant can generate initial sample data if you don't have any yet.
+
+### Generating sample data
+
+1. Open a template without sample data
+2. Open the AI Template Assistant
+3. Describe the data structure you need, for example:
+   - "Create sample data for an expense approval with amount, category, merchant, and date"
+   - "Generate sample data for a project with tasks array, assignees, and status"
+4. The assistant creates sample data matching your description
+5. Review and accept the sample data in the Data tab
+
+The generated sample data follows best practices with realistic values and proper structure for use with placeholders and directives.
+
+## Bulk creating blocks
+
+The AI Template Assistant excels at creating multiple blocks at once, saving you time when building complex templates.
+
+**Use cases:**
+- Creating multiple sections for different data fields
+- Building directive containers with child blocks
+- Adding multiple buttons to an Actions block
+- Generating table structures with columns
+
+**Example prompt:** "Add 5 section blocks showing order details: order ID, customer name, items array, total, and status"
+
+## Reviewing and accepting changes
+
+All changes from the AI Template Assistant are **drafted** — you maintain full control over what gets applied.
+
+### Side-by-side comparison
+
+1. When the assistant generates changes, a comparison view appears
+2. See your current template on the left and the proposed changes on the right
+3. Review each block addition, modification, or deletion
+4. Accept individual changes or accept all changes at once
+
+### Version control
+
+Accepting changes creates a **new version** of your template, preserving your previous work. You can:
+- Compare versions to see what changed
+- Revert to a previous version if needed
+- See version history in the template settings
+
+See [Template versioning](/guides/templates-versioning) for more details on managing versions.
+
+## Polishing existing templates
+
+The AI Template Assistant is perfect for enhancing templates you've already built.
+
+### Redesigning for better structure
+
+Ask the assistant to improve your template's structure and design:
+
+**Example prompts:**
+- "Redesign this template for better structure and visual hierarchy"
+- "Improve the layout and add better spacing between sections"
+- "Reorganize the blocks to follow best practices"
+
+### Adding final touches
+
+Use the assistant to add polish and flair:
+
+**Example prompts:**
+- "Add emojis and better formatting to make this more engaging"
+- "Add a context block with timestamp and author information"
+- "Improve the button labels and styling"
+
+The assistant understands LithoBlocks design best practices and applies them to your template.
+
+## Best practices
+
+### Be specific in your requests
+
+**Good:** "Create a header block with 'Order Confirmation', then a section showing order ID, customer name, and total with placeholders"
+
+**Less effective:** "Make an order template"
+
+### Iterate and refine
+
+1. Start with a basic request
+2. Review the generated blocks
+3. Ask for refinements: "Add a divider and make the header more prominent"
+4. Continue iterating until you're satisfied
+
+### Combine manual and AI work
+
+- Use the assistant for bulk operations and initial structure
+- Manually fine-tune specific blocks, placeholders, or configurations
+- Use the assistant again for final polish
+
+### Review before accepting
+
+Always review the side-by-side comparison before accepting changes, especially for complex templates or when modifying existing work.
+
+## Common use cases
+
+### Use case 1: Quick prototype
+
+1. Describe your template idea to the assistant
+2. Let it generate blocks and sample data
+3. Review and accept
+4. Test in preview
+5. Refine as needed
+
+### Use case 2: Template enhancement
+
+1. Open an existing template
+2. Ask the assistant to improve structure or add features
+3. Review changes side-by-side
+4. Accept changes to create a new version
+5. Compare versions to see improvements
+
+### Use case 3: Data-driven template
+
+1. Provide sample data or describe the data structure
+2. Ask the assistant to create a template that displays all relevant fields
+3. The assistant generates blocks with appropriate placeholders
+4. Review and adjust placeholders as needed
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+    Learn about all available block types.
+  </Card>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Reference data with {"{{path.to.data}}"}.
+  </Card>
+  <Card title="Sample data" icon="database" href="/guides/templates-sample-data">
+    Create and manage sample data sets.
+  </Card>
+  <Card title="Template design" icon="palette" href="/guides/template-design">
+    Best practices for template structure and design.
+  </Card>
+</CardGroup>

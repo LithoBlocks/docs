@@ -1,0 +1,84 @@
+---
+title: "Button webhooks"
+description: "Configure buttons to send HTTP requests to your API when users click them in Slack."
+---
+
+When a user clicks a button, LithoBlocks can send an HTTP request to your endpoint with interaction data. Use this to update databases, trigger workflows, or notify external systems.
+
+## Prerequisites
+
+- Understanding of [Interactive buttons](/guides/interactive-buttons)
+- An external webhook URL (or a test service like webhook.site)
+- Basic knowledge of HTTP and JSON
+
+## How it works
+
+1. User clicks a button in Slack
+2. LithoBlocks receives the interaction
+3. Your webhook payload is compiled with interaction data
+4. An HTTP request is sent to your endpoint
+5. Your system processes the request
+
+## Quick start
+
+### Step 1: Create a webhook destination
+
+1. Go to **Integrations** → **Webhooks**
+2. Click **Create Webhook Destination**
+3. Set **Name** (e.g. "Approval API"), **URL** (e.g. `https://api.yourcompany.com/approvals`), and **Method** (e.g. POST)
+4. Add headers if needed (e.g. `Authorization: Bearer YOUR_API_KEY`, `Content-Type: application/json`)
+
+### Step 2: Define the payload
+
+In the payload editor, use placeholders to send interaction data:
+
+```json
+{
+  "action": "approve",
+  "request_id": "{{interaction.button_value}}",
+  "approved_by": "{{interaction.user_email}}",
+  "timestamp": "{{interaction.timestamp}}"
+}
+```
+
+Common interaction placeholders include `interaction.button_value`, `interaction.user_id`, `interaction.user_email`, `interaction.channel_id`, and `interaction.message_ts`.
+
+### Step 3: Connect the button
+
+1. Open your template and select the button
+2. In button settings, click **Add Action** → **Webhook**
+3. Select your webhook destination
+4. Save the template
+
+### Step 4: Test
+
+1. Send the template to a test channel
+2. Click the button
+3. Check **Usage** → **Interactions** for webhook logs
+4. Confirm your API received the request
+
+## Authentication
+
+Configure headers on the webhook destination, for example:
+
+- **Bearer:** `Authorization: Bearer sk_live_abc123`
+- **API key:** `X-API-Key: your-api-key`
+- **Basic:** `Authorization: Basic base64(username:password)`
+
+## Webhook usage in templates
+
+When you add a webhook to a button, you choose a **webhook destination** and define the payload. For advanced configuration — authentication, retries, payload templating, and monitoring — see [Webhook destinations](/guides/webhook-destinations). To view and debug webhook delivery and responses, see [Understanding logs](/guides/logs).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Message updates" icon="pen-to-square" href="/guides/button-message-updates">
+    Update the Slack message after a button click.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Auth, retries, and advanced payload config.
+  </Card>
+  <Card title="Understanding logs" icon="list" href="/guides/logs">
+    Debug webhook delivery and responses.
+  </Card>
+</CardGroup>

@@ -1,0 +1,149 @@
+---
+title: "Understanding logs"
+description: "View and interpret Credit, Interaction, Message activity, and Webhook logs to debug templates, webhooks, and modals."
+---
+
+The platform provides several types of logs. Use the **Usage** page to view and filter them.
+
+## Types of logs
+
+1. **Credit logs** — Template processing and message sending
+2. **Interaction logs** — Button clicks and modal submissions
+3. **Message activity logs** — Message updates and changes
+4. **Webhook logs** — Webhook dispatches and responses (shown within interaction logs and filters)
+
+## Credit logs
+
+Credit logs track every template processing operation and credit usage.
+
+### Accessing credit logs
+
+Navigate to **Usage** to see all credit logs for your organization.
+
+### Credit log entries
+
+Each entry includes: `id`, `template_id`, `credits_used`, `remaining_balance`, `generation_status` (success/error), `processing_time_ms`, `request_data`, `response_data`, `error_message` (if failed), `created_at`.
+
+### Credit log statuses
+
+| Status | Description | What to check |
+|--------|-------------|---------------|
+| success | Template processed successfully | Review `response_data` for generated blocks |
+| error | Processing failed | Check `error_message` for details |
+
+### Common credit log errors
+
+- **Template not found** — Template ID invalid or deleted. Verify template exists.
+- **Invalid sample data format** — Request data doesn't match expected structure. Compare `request_data` to sample data schema.
+- **Block limit exceeded** — Generated blocks exceed Slack's 50-block limit. Use `maxBlocks` in directives or simplify template.
+- **Insufficient credits** — Balance is zero. Purchase more in Billing.
+
+### Viewing detail
+
+Click an entry to see: **Request data** (JSON sent to processor), **Generated blocks** (Slack block structure), **Error details** (if failed), **Linked interactions** (button clicks or modal submissions from that message).
+
+## Interaction logs
+
+Interaction logs record every button click and modal submission from Slack.
+
+### Accessing interaction logs
+
+- **Usage page** — All interactions across templates
+- **Credit log detail** — Interactions for a specific message
+
+### Interaction log entries
+
+Each entry includes: `id`, `action_id`, `slack_user_id`, `slack_team_id`, `interaction_timestamp`, webhook fields (`webhook_url`, `webhook_method`, `webhook_payload`, `webhook_response_status`, `webhook_response_body`, `webhook_error`, etc.), `interaction_components`, `processing_time_ms`, idempotency and retry fields.
+
+### Interaction types
+
+- **webhook_only** — Button triggers webhook, no message update
+- **message_update_only** — Button updates message, no webhook
+- **webhook_and_update** — Button does both
+- **unknown** — Legacy or error
+
+### Debugging webhook issues
+
+Check **webhook request** (URL, method, payload) and **webhook response** (`webhook_response_status`, `webhook_response_body`, `webhook_error`).
+
+**Common webhook response codes:**
+
+| Status | Meaning | Action |
+|--------|---------|--------|
+| 2xx | Success | None |
+| 400 | Bad request | Fix payload template |
+| 401/403 | Auth failed | Check auth headers in [webhook destination](/guides/webhook-destinations) |
+| 404 | Not found | Verify webhook URL |
+| 500 | Server error | Check your webhook service logs |
+| Timeout | No response | Increase timeout or optimize endpoint |
+
+**Step-by-step:** Identify failure (status, error) → review request payload → check response body → verify destination URL and auth → test endpoint with curl or Postman.
+
+### Debugging message update issues
+
+Use `interaction_components` to see which parts ran (webhook, message_update). Check **Message Activity** for update strategy, replaced blocks, success/failure, and error messages.
+
+## Message activity logs
+
+Message activity logs track changes made to a Slack message after it was sent.
+
+### Accessing message activity
+
+**Usage** → click a credit log → **Message Activity Timeline**.
+
+### Timeline and update strategies
+
+The timeline shows: message sent, button clicked, and update applied (replace block, append blocks, replace all, remove buttons). Each entry shows strategy, target block, status, and any error.
+
+### Message update errors
+
+- **Block ID not found** — Verify `block_id` exists in the original message.
+- **Invalid replacement blocks** — Ensure block structure matches Slack Block Kit.
+- **Message not found** — Message may have been deleted from Slack.
+
+## Webhook logs filtering
+
+On the **Usage** page you can filter by:
+
+- **Date range** — From/to dates
+- **Status** — All, Successful (2xx), Failed (4xx/5xx), Timeout
+- **Template** — Specific template ID
+- **Search** — action_id, webhook URL, user ID
+
+**Use cases:** Find failed webhooks in a date range; track a specific button by `action_id`; debug a user-reported issue by Slack user ID.
+
+## Log data retention
+
+| Log type | Retention | Notes |
+|----------|-----------|-------|
+| Credit logs | 90 days | request_data/response_data may be cleared after 7 days |
+| Interaction logs | 90 days | Full payload for debugging |
+| Message activity | 90 days | Linked to interactions |
+| Webhook data | 30 days | Response bodies may be truncated after 7 days |
+
+After retention, summary and error messages may remain; detailed JSON can be cleared.
+
+## Exporting logs
+
+- **CSV** — From Usage page; timestamp, template, status, credits (billing/usage reports).
+- **JSON** — From individual log detail; full request/response (debugging).
+- **API** — Programmatic access for monitoring and reporting.
+
+## Best practices
+
+- **Development:** Keep Usage open while testing; use descriptive action IDs; add context to webhook payloads.
+- **Production:** Monitor webhook success rates; track processing times; review error patterns and fix recurring issues.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Troubleshooting" icon="wrench" href="/guides/troubleshooting">
+    Common issues and fixes for templates, Slack, and webhooks.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Configure URLs, auth, retries, and payloads.
+  </Card>
+  <Card title="Button message updates" icon="hand-pointer" href="/guides/button-message-updates">
+    How message update strategies work.
+  </Card>
+</CardGroup>

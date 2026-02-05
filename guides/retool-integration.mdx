@@ -1,0 +1,89 @@
+---
+title: "Retool"
+description: "Use LithoBlocks with Retool to send Slack messages from apps and receive webhooks from LithoBlocks in Retool Workflows."
+---
+
+<Note>
+The LithoBlocks Retool integration is currently in development. The steps below will be updated when the integration is available. Until then, create a LithoBlocks API resource in Retool (root URL, stored auth) and use it in your apps or workflows with the API path, query params, and body as required. In Retool Workflows (not Retool Apps), you can use a Webhook trigger to receive LithoBlocks webhooks.
+</Note>
+
+This guide explains how to use LithoBlocks with [Retool](https://retool.com/) to send Slack messages from Retool apps and to receive webhooks from LithoBlocks in Retool Workflows.
+
+## Prerequisites
+
+- LithoBlocks account and organization
+- Retool account (cloud or self-hosted)
+- LithoBlocks Retool integration (when available; until then, LithoBlocks API resource; Webhook trigger in Retool Workflows for receiving webhooks)
+- [Connecting Slack](/connecting-slack) for your LithoBlocks workspace
+
+## Coming soon: LithoBlocks Retool integration
+
+When the LithoBlocks Retool integration is released, you will be able to:
+
+1. **Send a message to Slack from a Retool app** — Use a LithoBlocks resource or block to compile a template with your app data and send the message to a Slack channel or user. No custom HTTP needed.
+2. **Receive a webhook from LithoBlocks in Retool Workflows** — When a button or modal triggers a webhook in LithoBlocks, trigger a Retool Workflow (via Webhook trigger) and use the payload in subsequent workflow steps.
+
+Steps for these flows will be added here when the integration is available.
+
+## Current workaround: LithoBlocks API as a Retool resource
+
+Until the integration is available, create a **LithoBlocks API resource** in your Retool account. The resource uses the root URL and stores the auth token once; then use it in any app or workflow by providing the API path, query params, and body as required.
+
+### Get an API key
+
+1. Log into your [LithoBlocks dashboard](https://app.lithoblocks.com)
+2. Go to **API Keys** in your account or organization settings
+3. Create an API key with the scopes you need (e.g. `templates:read`, `messages:create`)
+4. Copy the key (it is shown only once)
+
+### Create the LithoBlocks API resource
+
+1. In Retool, go to **Resources** and create a new resource. Choose **REST API** (or **Custom API**).
+2. **Base URL (root URL):** Set to `https://api.lithoblocks.com`. Do not include a path; paths are specified when you use the resource in an app or workflow.
+3. **Authentication:** Configure the resource to store and use your LithoBlocks API key:
+   - Add a header: `Authorization` = `Bearer YOUR_LITHOBLOCKS_API_KEY`
+   - Store the key in Retool [environment variables or secrets](https://docs.retool.com/docs/use-environment-variables-and-secrets) and reference it in the header (e.g. so the token is not hardcoded). The resource will send this header on every request.
+4. **Optional:** Set default headers such as `Content-Type: application/json` if your requests will use JSON bodies.
+5. Save the resource (e.g. name it "LithoBlocks API").
+
+### Use the resource in an app or workflow
+
+In any Retool app or workflow that can call this resource:
+
+1. **API path** — Provide the path for the operation you need. Examples:
+   - Compile a template: `POST /templates/{template_id}/compile` (replace `{template_id}` with the template ID, e.g. from state or a dropdown).
+   - Send a message: `POST /templates/{template_id}/send` (see [API reference](/api-reference/introduction) for the send endpoint and parameters).
+   - List templates: `GET /templates`.
+2. **Query params** — Add any query parameters the endpoint requires (e.g. `include_sample_data=true` for templates). Set them in the query configuration when you invoke the resource.
+3. **Body** — For POST/PUT/PATCH, include the request body as required by the endpoint. For compile or send, the body is JSON in the shape your template expects (same as [sample data](/guides/templates-sample-data)). Use Retool bindings to map form fields, table data, or state into this structure.
+4. Run the query (e.g. on button click, form submit, or workflow trigger). The response contains the API result (compiled blocks, send confirmation, or list data).
+
+See the [API reference](/api-reference/introduction) for all endpoints, parameters, and response shapes. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.
+
+### Receive LithoBlocks webhooks in Retool Workflows
+
+Webhooks are available in **Retool Workflows** only, not in Retool Apps. When a button or modal in LithoBlocks triggers a webhook:
+
+1. In Retool, create a **Workflow** and add a **Webhook** trigger as the first step. From the workflow builder, copy the **webhook URL** and copy the **API key** (shown for the Webhook trigger).
+2. In LithoBlocks, create a [Webhook destination](/guides/webhook-destinations) with that URL. Add a header: **`x-retool-api-key`** with the value of the API key you copied from the Retool workflow builder. This header is required so Retool accepts the incoming request.
+3. Connect the webhook destination to your button or modal submission.
+4. When a user clicks the button or submits the modal, LithoBlocks POSTs the payload to your Retool Workflow webhook (with the `x-retool-api-key` header). The payload is available in the webhook trigger output; use it in subsequent workflow steps (e.g. run a query, call an API, update a database).
+
+Payload structure depends on your [payload template](/guides/button-webhooks); use the same placeholders (e.g. `{{interaction.user_email}}`, `{{expense.id}}`) so your workflow receives the data you need.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connecting Slack" icon="slack" href="/connecting-slack">
+    Connect your Slack workspace to LithoBlocks.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build a template and send a message.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Authentication, endpoints, and parameters.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Configure webhooks for buttons and modals.
+  </Card>
+</CardGroup>

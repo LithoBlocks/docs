@@ -1,0 +1,82 @@
+---
+title: "Low-code and LithoBlocks"
+description: "Use LithoBlocks templates from Make, Zapier, n8n, Airtable, and Retool to simplify input mapping, reuse message structure, and update messages without touching your automations."
+---
+
+LithoBlocks templates let your low-code flows send Slack messages without building Block Kit JSON in nodes or steps. Your flow maps trigger data to a payload; LithoBlocks handles the message structure. That simplifies input mapping, increases reusability, and lets you update messages without touching every automation.
+
+## Why use LithoBlocks with low-code platforms
+
+- **Simplifies input mapping** — Low-code flows map trigger or action data to a single payload; the template defines the message structure. No Block Kit JSON to build in nodes.
+- **Increases reusability of message structure** — One template used across many scenarios and platforms. Same layout and copy; only the data changes.
+- **Quicker to build and implement** — Design the message once in LithoBlocks; low-code flows only pass data. Faster than building blocks in each scenario.
+- **Handles arrays and outputs array-capable structure** — Templates support [directives](/guides/templates-directives) (#each), [table blocks](/guides/templates-table-blocks), and list-style output. Low-code sends arrays; LithoBlocks renders them. No complex logic in nodes to repeat blocks.
+- **Version control and updates outside automations** — Change templates in LithoBlocks; all flows using that template get the update. No need to edit every Make scenario, Zap, or n8n workflow.
+- **Democratized message updates** — Non-technical users (e.g. comms, marketing) can change copy and layout in LithoBlocks. No need to touch automations or code.
+
+## More benefits
+
+- **Single source of truth** — Message layout and copy live in LithoBlocks; low-code only passes data. One place to update; all entry points (Make, Zapier, n8n, Retool, Airtable) stay in sync.
+- **Reduced maintenance** — No Block Kit JSON duplicated across scenarios or hardcoded in nodes. Update the template once instead of every automation.
+- **Separation of concerns** — Business or comms own message design (templates); ops or developers own triggers and data (low-code). Fewer bottlenecks and clearer ownership.
+- **Easier testing** — Preview and test templates in LithoBlocks with [sample data](/guides/templates-sample-data). Low-code flows only need to supply the same data shape; no need to run full scenarios to see message changes.
+- **Handles complexity in the template** — Directives (#each, #if), table blocks, and conditional blocks live in the template. Low-code sends flat or nested data; no complex logic in nodes to build blocks.
+- **Reusability across platforms** — The same template can be used from Make, Zapier, n8n, Retool, and Airtable. One template, many entry points.
+- **Lower error rate** — Valid templates in LithoBlocks reduce malformed Slack messages from hand-built or copied JSON in low-code nodes.
+
+## Common pattern
+
+Your flow decides **when** and **what** data; LithoBlocks decides **how** the message looks.
+
+1. **Trigger** (e.g. new row, webhook, form submit) in your low-code platform.
+2. **Map data** to the shape your template expects (same as [sample data](/guides/templates-sample-data)).
+3. **HTTP request** to LithoBlocks: POST to `/templates/{template_id}/compile` or `/send` with the payload. See the [API reference](/api-reference/introduction).
+4. **Slack** receives the message (if you use send).
+
+**Inputs:** `template_id`, payload (JSON). **Optional:** Configure a webhook in LithoBlocks so button or modal interactions in Slack trigger your low-code flow.
+
+## Prerequisites
+
+- LithoBlocks API key (from your [dashboard](https://app.lithoblocks.com) → API Keys)
+- At least one template (see [Quickstart](/quickstart))
+- [Connecting Slack](/connecting-slack) for your LithoBlocks workspace (required for send)
+- Optional: webhook destination if buttons or modals in Slack should trigger your flow
+
+## Platform guides
+
+Same pattern in each platform: trigger or action → map data → HTTP request to LithoBlocks (compile or send). Optional: receive LithoBlocks webhooks in your flow.
+
+<CardGroup cols={2}>
+  <Card title="Make" icon="puzzle-piece" href="/guides/make-integration">
+    Use LithoBlocks from Make scenarios.
+  </Card>
+  <Card title="Zapier" icon="bolt" href="/guides/zapier-integration">
+    Use LithoBlocks from Zaps.
+  </Card>
+  <Card title="n8n" icon="code-branch" href="/guides/n8n-integration">
+    Use LithoBlocks from n8n workflows.
+  </Card>
+  <Card title="Airtable" icon="table" href="/guides/airtable-integration">
+    Use LithoBlocks from Airtable automations.
+  </Card>
+  <Card title="Retool" icon="wrench" href="/guides/retool-integration">
+    Use LithoBlocks from Retool apps and workflows.
+  </Card>
+</CardGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build a template and send a message.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Endpoints, auth, and parameters.
+  </Card>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Template data shape and syntax.
+  </Card>
+  <Card title="Sample data" icon="database" href="/guides/templates-sample-data">
+    Structure payloads for your templates.
+  </Card>
+</CardGroup>

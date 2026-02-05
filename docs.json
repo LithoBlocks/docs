@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "willow",
+  "name": "LithoBlocks",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0891b2",
+    "light": "#cffafe",
+    "dark": "#0e7490"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -18,31 +18,94 @@
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "connecting-slack"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Templates",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "guides/templates-blocks",
+              "guides/templates-placeholders",
+              "guides/templates-directives",
+              "guides/templates-versioning",
+              "guides/templates-sample-data",
+              "guides/templates-table-blocks",
+              "guides/ai-template-assistant"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Interactive",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "guides/interactive-buttons",
+              "guides/button-webhooks",
+              "guides/button-message-updates"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Modals",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "guides/modals-basics",
+              "guides/modals-data-binding",
+              "guides/modals-submissions"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "guides/entities",
+              "guides/webhook-destinations"
+            ]
+          },
+          {
+            "group": "Best practices",
+            "pages": [
+              "guides/template-design"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": [
+              "guides/examples"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              "guides/troubleshooting",
+              "guides/logs"
+            ]
+          },
+          {
+            "group": "Architecture",
+            "pages": [
+              "architecture/overview",
+              "architecture/compile-vs-send"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": "Low-code platforms",
+            "pages": [
+              "guides/low-code-overview",
+              "guides/make-integration",
+              "guides/zapier-integration",
+              "guides/n8n-integration",
+              "guides/airtable-integration",
+              "guides/retool-integration"
+            ]
+          },
+          {
+            "group": "AI agents",
+            "pages": [
+              "guides/ai-agents-overview",
+              "guides/langchain-integration",
+              "guides/llamaindex-integration",
+              "guides/crewai-integration",
+              "guides/n8n-ai-integration"
             ]
           }
         ]
@@ -51,19 +114,14 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
+            "group": "LithoBlocks API",
+            "openapi": "api-reference/openapi.json"
           }
         ]
       }
@@ -71,52 +129,46 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Go to the dashboard",
+          "href": "https://app.lithoblocks.com",
+          "icon": "arrow-right"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@lithoblocks.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.lithoblocks.com"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/lithoblocks",
+      "linkedin": "https://linkedin.com/company/lithoblocks"
     }
   }
 }

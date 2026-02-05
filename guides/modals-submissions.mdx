@@ -1,0 +1,63 @@
+---
+title: "Modal submissions"
+description: "Process modal form submissions — send webhooks with form data and update messages after submission."
+---
+
+When users submit a modal, you can send the form data to your backend and/or update the original Slack message. Use this for feedback, approvals with comments, and data entry workflows.
+
+## Prerequisites
+
+- Understanding of [Modal basics](/guides/modals-basics)
+- Familiarity with [Button webhooks](/guides/button-webhooks)
+- Knowledge of [Message updates](/guides/button-message-updates)
+
+## Submission flow
+
+1. User fills the modal and clicks **Submit**
+2. LithoBlocks receives the submission and extracts form values
+3. You can trigger a **webhook** (POST form data to your API) and/or a **message update** (change the original message)
+4. Optional: show a confirmation or thank-you in the message
+
+## Submission data
+
+Form values are sent as a structured object, for example:
+
+```json
+{
+  "field_label_1": "value",
+  "field_label_2": ["option1", "option2"],
+  "field_label_3": "2024-12-25"
+}
+```
+
+Field keys match your modal field labels or IDs; values are strings, arrays (multi-select), or formatted dates/times.
+
+## Configure submission actions
+
+1. Open your modal definition
+2. Under **On submit**, add one or both:
+   - **Webhook** — Select a webhook destination; the payload will include the form data (and optional interaction placeholders)
+   - **Message update** — Choose strategy (replace self, replace all, add response block) and define the new content
+3. Save the modal
+
+## Combined actions
+
+You can run both a webhook and a message update on submit: e.g. POST data to your API and append "✓ Submitted by [user] at [time]" to the original message.
+
+## Webhook usage in templates
+
+Modal submission webhooks use the same **webhook destinations** as buttons. For advanced configuration — authentication, retries, payload templating, and monitoring — see [Webhook destinations](/guides/webhook-destinations). To view and debug webhook delivery and responses, see [Understanding logs](/guides/logs).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Modal basics" icon="window-maximize" href="/guides/modals-basics">
+    Create and configure modals.
+  </Card>
+  <Card title="Webhook destinations" icon="link" href="/guides/webhook-destinations">
+    Auth, retries, and advanced payload config.
+  </Card>
+  <Card title="Understanding logs" icon="list" href="/guides/logs">
+    Debug webhook delivery and responses.
+  </Card>
+</CardGroup>

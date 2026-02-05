@@ -1,28 +1,33 @@
-# Mintlify Starter Kit
+# LithoBlocks Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+This repository contains the documentation for [LithoBlocks](https://app.lithoblocks.com), a platform for building and sending Slack message templates with dynamic data, interactive buttons, and webhooks.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## About LithoBlocks
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+LithoBlocks lets you create reusable Slack message templates, fill them with dynamic data, and send them to your workspace. Connect Slack once, then design templates with placeholders, blocks, and interactive buttons. The platform supports integrations with low-code platforms (Make, Zapier, n8n, Airtable, Retool) and AI agent frameworks (LangChain, LlamaIndex, CrewAI).
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+## Documentation structure
+
+This documentation site is built with [Mintlify](https://mintlify.com) and includes:
+
+- **Getting started guides**: Quickstart, connecting Slack, and onboarding
+- **Template guides**: Placeholders, blocks, directives, versioning, and sample data
+- **Interactive features**: Buttons, button webhooks, message updates, and modals
+- **Advanced topics**: Entities, webhook destinations, and architecture
+- **Integration guides**: Low-code platforms and AI agent frameworks
+- **API reference**: Complete API documentation generated from OpenAPI spec
 
 ## Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally:
 
-```
+```bash
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+Run the development server at the root of this repository (where `docs.json` is located):
 
-```
+```bash
 mint dev
 ```
 
@@ -30,14 +35,24 @@ View your local preview at `http://localhost:3000`.
 
 ## Publishing changes
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Changes are automatically deployed to production when pushed to the default branch. The GitHub app is configured to propagate changes from this repository to the Mintlify deployment.
 
-## Need help?
+## Contributing
 
-### Troubleshooting
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
+- File layout and organization
+- Content types and structure (Diátaxis framework)
+- MDX components and best practices
+- Writing conventions
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## Troubleshooting
 
-### Resources
+- **Dev environment won't start**: Run `mint update` to ensure you have the most recent version of the CLI
+- **Page loads as 404**: Make sure you're running `mint dev` in the folder containing `docs.json`
+- **Navigation issues**: Verify page paths in `docs.json` match file locations (without `.mdx` extension)
+
+## Resources
+
 - [Mintlify documentation](https://mintlify.com/docs)
+- [LithoBlocks Dashboard](https://app.lithoblocks.com)
+- [Support](mailto:support@lithoblocks.com)

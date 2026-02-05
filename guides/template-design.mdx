@@ -1,0 +1,56 @@
+---
+title: "Template design best practices"
+description: "Design effective Slack message templates that are clear, maintainable, and provide a great user experience."
+---
+
+Follow these practices to build templates that are easy to read, maintain, and use.
+
+## Clarity first
+
+Messages should communicate clearly and concisely.
+
+**Good:** Clear hierarchy and scannable — use a header for the main title, sections for content, context for metadata, actions for buttons.
+
+**Bad:** Long paragraphs without structure. Prefer short blocks and lists over walls of text.
+
+## Visual hierarchy
+
+Use block types to create structure:
+
+- **Header** — Main title or status
+- **Section** — Primary content
+- **Context** — Metadata, timestamps, authors
+- **Actions** — Buttons for user actions
+- **Divider** — Optional visual break between sections
+
+<Tip>
+Put the most important information at the top. Use headers and sections to separate ideas.
+</Tip>
+
+## Information density
+
+Balance completeness with readability. Show key info at a glance; use buttons or modals for extra detail when needed. Avoid overloading a single message with too many fields or buttons (e.g. limit to 5 buttons per Actions block).
+
+## Placeholder and data practices
+
+- Use descriptive placeholder names: `{{user.email}}` not `{{e}}`
+- Pre-format dates and numbers in your data when possible
+- Keep sample data in sync with entity definitions if you use entities
+- Test with realistic data (empty, one item, many items) for directives and [table blocks](/guides/templates-table-blocks)
+
+## Interactive elements
+
+- Use clear, action-oriented button labels ("Approve", "View Details") not vague text ("Click here")
+- Use Primary (green) for the main action, Danger (red) for destructive actions, Default (gray) for secondary
+- Ensure each button has a unique action ID
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+    Structure your messages with blocks.
+  </Card>
+  <Card title="Interactive buttons" icon="hand-pointer" href="/guides/interactive-buttons">
+    Add clear, actionable buttons.
+  </Card>
+</CardGroup>

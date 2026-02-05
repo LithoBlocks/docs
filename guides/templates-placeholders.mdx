@@ -1,0 +1,113 @@
+---
+title: "Placeholders"
+description: "Use placeholders to insert dynamic data into Slack templates — simple variables, nested objects, arrays, and directive loops."
+---
+
+Placeholders use the syntax `{{path.to.data}}` and are replaced with actual values when the template is compiled with data. Think of them as variables that get filled with real information each time you send a message.
+
+## Prerequisites
+
+- Completed [Quickstart](/quickstart)
+- Basic understanding of JSON
+
+## Basic syntax
+
+### Simple variables
+
+```
+Hello {{name}}!
+```
+
+With data:
+```json
+{ "name": "Sarah" }
+```
+
+Renders as: **Hello Sarah!**
+
+### Object properties
+
+Use dot notation for nested properties:
+
+```
+Email: {{user.email}}
+Role: {{user.role}}
+```
+
+With data:
+```json
+{
+  "user": {
+    "email": "sarah@company.com",
+    "role": "Product Manager"
+  }
+}
+```
+
+### Array elements by index
+
+```
+First item: {{items[0].name}}
+Second item: {{items[1].name}}
+```
+
+With data:
+```json
+{
+  "items": [
+    { "name": "Widget A" },
+    { "name": "Widget B" }
+  ]
+}
+```
+
+## Looping with directives
+
+For dynamic lists, use the `#each` directive (see [Directives](/guides/templates-directives)):
+
+```
+{{#each items}}
+- {{this.name}}: ${{this.price}}
+{{/each}}
+```
+
+Inside the loop, `this` refers to the current item. Use `@index` for the 0-based index (e.g. `Task {{@index + 1}}: {{this.title}}`).
+
+## Common patterns
+
+**User information:**
+```
+Name: {{user.name}}
+Email: {{user.email}}
+Manager: {{user.manager.name}}
+```
+
+**Order data:**
+```
+Order #{{order.id}}
+Total: ${{order.total}}
+Status: {{order.status}}
+```
+
+**Dates:** Pre-format dates in your data (e.g. `"January 15, 2025"`) and reference them: `Created: {{task.created_at}}`.
+
+<Tip>
+Do calculations and conditional logic before template compilation. Pass ready-to-display values (e.g. `status_message: "✅ Approved"`) and reference them in the template.
+</Tip>
+
+## Best practices
+
+- Use descriptive names: `{{user.email}}` not `{{e}}`
+- Match placeholder paths to your sample data structure
+- Avoid double dots or typos: `{{user..name}}` will fail
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Directives" icon="repeat" href="/guides/templates-directives">
+    Generate repeating blocks with #each and conditionals.
+  </Card>
+  <Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+    Use placeholders inside blocks.
+  </Card>
+</CardGroup>

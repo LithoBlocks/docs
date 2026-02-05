@@ -1,0 +1,246 @@
+---
+title: "Sample data"
+description: "Create, manage, and use sample data sets to develop and test your Slack templates."
+---
+
+Sample data is test data used to preview how your templates will render with actual content. Use it to develop templates without live production data, test edge cases, share examples, and validate entities.
+
+## Prerequisites
+
+- Understanding of [Placeholders](/guides/templates-placeholders)
+- Basic knowledge of JSON (for the JSON editor path)
+
+## What is sample data?
+
+Sample data allows you to:
+
+- **Develop templates** without needing live production data
+- **Test edge cases** with controlled data scenarios
+- **Share examples** with team members
+- **Validate entities** against realistic data structures
+
+## Sample data sets
+
+### Creating a sample data set
+
+There are two ways to create sample data:
+
+**1. JSON Editor (Advanced)**
+
+For developers comfortable with JSON:
+
+```json
+{
+  "user": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "Senior Engineer"
+  },
+  "ticket": {
+    "id": "TICK-1234",
+    "title": "Fix login bug",
+    "priority": "High",
+    "status": "In Progress"
+  },
+  "tasks": [
+    {
+      "title": "Review code",
+      "assignee": "Alice",
+      "completed": true
+    },
+    {
+      "title": "Write tests",
+      "assignee": "Bob",
+      "completed": false
+    }
+  ]
+}
+```
+
+**2. Form Editor (User-Friendly)**
+
+For non-developers or when using entities:
+
+1. Select an entity from the dropdown
+2. Form fields auto-populate based on entity schema
+3. Fill in values
+4. Add array items with "Add Item" buttons
+5. Nested objects handled automatically
+
+### Sample data properties
+
+Each sample data set has:
+
+- **Name**: Descriptive identifier (e.g., "Support Ticket Example")
+- **Description**: What this data represents and when to use it
+- **Data**: The actual JSON data structure
+- **Visibility**: Who can access this data set
+- **Created by**: Original creator
+- **Created at**: When it was created
+
+### Visibility options
+
+**Organization (Private)**
+
+- Only visible to your organization
+- Default for new sample data sets
+- Good for: Internal testing, confidential data structures
+
+**Community (Public)**
+
+- Shared across all platform users
+- Can be copied by other organizations
+- Good for: Examples, common patterns, templates to share
+
+## Using sample data with templates
+
+### Assigning sample data to a template
+
+**Method 1: In Template Editor**
+
+1. Open your template
+2. Go to **Data** tab
+3. Select a sample data set from dropdown
+4. Or create new sample data inline
+
+**Method 2: Link multiple data sets**
+
+1. Go to **Sample Data** page
+2. Click on a sample data set
+3. View linked templates
+4. Click "Link to Template" to connect
+
+### Switching sample data
+
+While editing a template:
+
+1. Data tab shows current sample data set
+2. Dropdown lists all available sample data sets
+3. Select different set to see template with new data
+4. Changes are immediate in preview
+
+### Template-specific sample data
+
+You can embed sample data directly in a template:
+
+**Pros:** Self-contained, easy to export/share template with data.
+
+**Cons:** Can't reuse across multiple templates; harder to maintain if data structure changes.
+
+**When to use:** Quick prototypes, one-off templates, templates with unique data structures.
+
+## Sample data best practices
+
+### 1. Use realistic data
+
+**Good: Realistic and representative**
+
+```json
+{
+  "expense": {
+    "amount": 1234.56,
+    "category": "Travel",
+    "merchant": "United Airlines",
+    "date": "2024-01-15",
+    "receipt_url": "https://example.com/receipts/001.pdf"
+  }
+}
+```
+
+**Bad: Placeholder data**
+
+```json
+{
+  "expense": {
+    "amount": 123,
+    "category": "test",
+    "merchant": "foo",
+    "date": "date",
+    "receipt_url": "url"
+  }
+}
+```
+
+### 2. Cover edge cases
+
+Create multiple sample data sets for different scenarios:
+
+**Happy path:** `status: "approved"`, approver set, notes present.
+
+**Error case:** `status: "rejected"`, approver set, rejection notes.
+
+**Edge case:** `status: "pending"`, approver null, empty notes.
+
+### 3. Use arrays with multiple items
+
+Test directive loops with realistic array sizes; include enough items to exercise `maxBlocks` behavior when relevant.
+
+### 4. Include formatted display values
+
+Pre-format data for display when it helps (e.g. currency strings, readable dates, status labels).
+
+### 5. Document your data structure
+
+Use the description field to explain the structure (required vs optional fields, array shapes, nested objects).
+
+## Entity-based sample data
+
+Entities provide structure and validation for sample data. Define an entity (e.g. "Expense" with fields and types), then create sample data from it in the form editor so validation and type checking are automatic. Use the same entity across templates for consistency.
+
+See [Entities](/guides/entities) for defining and attaching entities to templates and sample data.
+
+## Community sample data
+
+- **Finding:** Sample Data page → **Community Data** tab; browse or filter by category.
+- **Using:** Click a community data set → **Copy to My Data** → edit as needed; it is then owned by your organization.
+- **Sharing:** Edit visibility to "Community", add a clear description and usage examples.
+
+## Managing sample data
+
+### Editing sample data
+
+1. Go to **Sample Data** page
+2. Click on the data set name
+3. Click **Edit**
+4. Modify data, description, or visibility
+5. Click **Save**
+
+<Warning>
+Editing sample data affects all templates using it.
+</Warning>
+
+### Deleting sample data
+
+1. Find the data set in **Sample Data** page
+2. Click delete icon (trash can)
+3. Confirm deletion
+
+Before deleting: check **Templates Using This Data**, unlink or reassign templates if needed, and export data if you might need it later.
+
+### Duplicating sample data
+
+View existing set → **Duplicate** → give it a new name → modify the copy. Useful for test vs production versions or organization-specific variants of community data.
+
+## Exporting and importing
+
+- **Export:** View sample data set → **Export JSON**; use for backup, sharing, or version control.
+- **Import:** Sample Data → **Create Sample Data** → JSON editor → paste exported JSON → update name and description → Save.
+
+You can also extract sample data from existing templates and save as reusable sets.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Use sample data to fill placeholders in templates.
+  </Card>
+  <Card title="Entities" icon="database" href="/guides/entities">
+    Define reusable structures and validate sample data.
+  </Card>
+  <Card title="Directives" icon="list" href="/guides/templates-directives">
+    Loop over arrays in sample data with #each and #if.
+  </Card>
+  <Card title="Template design" icon="palette" href="/guides/template-design">
+    Best practices for templates and data structure.
+  </Card>
+</CardGroup>

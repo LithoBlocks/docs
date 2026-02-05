@@ -1,0 +1,69 @@
+---
+title: "Template versioning"
+description: "Manage template versions — draft, active, and inactive — with safe iteration and rollback."
+---
+
+Template versioning lets you iterate on designs without breaking production, track changes, and roll back when needed.
+
+## Prerequisites
+
+- A template you want to version
+
+## Version states
+
+| State | Description | Usage |
+|-------|-------------|--------|
+| **Draft** | Work in progress, not used in production | Development and testing |
+| **Active** | Current production version | Live message sending |
+| **Inactive** | Previous versions, archived | History and rollback |
+
+New templates start as **Draft**. When ready, activate a version; it becomes **Active** and the previous active version becomes **Inactive**.
+
+## Creating versions
+
+### New version from current
+
+1. Make changes to your template in the builder
+2. Click **Save as New Version**
+3. A new version is created in **Draft** state
+4. The current **Active** version stays live until you activate the new one
+
+### From version history
+
+1. Open the template and go to **Version History**
+2. Click **Create New Version**
+3. A new draft is created from the current active version
+
+Versions are auto-numbered sequentially (1, 2, 3, …). Numbers are never reused.
+
+## Managing versions
+
+### View version history
+
+1. Open the template
+2. Click **Version History**
+3. See all versions with number, state, and timestamp
+
+### Activate a version
+
+1. In Version History, select a **Draft** version
+2. Click **Activate**
+3. That version becomes **Active**; the previous active becomes **Inactive**
+
+Only one version can be Active at a time. Activating a draft does not automatically deploy; use your normal process to send messages with the new content.
+
+### Roll back
+
+To roll back: open Version History, select the **Inactive** version you want to restore, and **Activate** it. It becomes Active again; the current Active becomes Inactive.
+
+## Best practices
+
+- Use drafts for all experimental changes
+- Activate only after testing (e.g. send to a test channel)
+- Use version history to compare and audit changes
+
+## Next steps
+
+<Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+  Build the content that you version.
+</Card>

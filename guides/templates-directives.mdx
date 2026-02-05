@@ -1,0 +1,98 @@
+---
+title: "Directives"
+description: "Use directives like #each to create repeating sections, dynamic lists, and conditional content in Slack templates."
+---
+
+Directives generate dynamic content from your data at runtime. Add a **Directive Container** block, configure it, and the template expands automatically based on arrays or conditions — no need to manually create multiple blocks.
+
+## Prerequisites
+
+- Understanding of [Placeholders](/guides/templates-placeholders)
+- Familiarity with [Block types](/guides/templates-blocks)
+- Basic knowledge of JSON arrays and objects
+
+## Directive types
+
+| Directive | Purpose |
+|-----------|---------|
+| **#each** | Loop over an array and generate repeating content |
+| **#if** | Conditionally render content based on data |
+| **#block** | Group blocks together (organizational) |
+
+**Common use cases:** order items lists, user lists or team rosters, status dashboards, conditional sections.
+
+## Using #each
+
+The `#each` directive iterates over an array and generates blocks for each item.
+
+### Prepare your data
+
+Ensure your sample data includes an array:
+
+```json
+{
+  "order": { "id": "ORD-123", "customer": "John Doe" },
+  "items": [
+    { "name": "Widget A", "quantity": 2, "price": 29.99 },
+    { "name": "Gadget B", "quantity": 1, "price": 49.99 }
+  ]
+}
+```
+
+### Add and configure a directive container
+
+1. In the Template Builder, click **Add Block**
+2. Select **Directive Container**
+3. In the directive configuration panel:
+   - **Directive Type:** `#each`
+   - **Array Path:** path to your array (e.g. `items`, `order.items`, `data.results`)
+4. Confirm
+
+Array path uses the same dot notation as placeholders, without `{{}}`.
+
+### Add child blocks
+
+Inside the directive container, add the blocks that repeat for each item (Section, Context, Actions, etc.):
+
+```
+**{{this.name}}**
+Quantity: {{this.quantity}} | Price: ${{this.price}}
+```
+
+### Placeholders inside the loop
+
+- `{{this.property}}` — property of the current item
+- `{{this}}` — entire current item (for arrays of simple values like strings)
+- `{{@index}}` — zero-based index (0, 1, 2, ...)
+
+You can mix loop data with parent data: `Order: {{order.id}}` and `Item: {{this.name}}` together.
+
+### Optional: limit large lists
+
+In the directive configuration, set **Max Blocks** (e.g. 5) and **Overflow Text** (e.g. `_... and {{remaining}} more items_`) to avoid overly long messages.
+
+## Using #if
+
+Use `#if` to show or hide content based on a value. Set **Directive Type** to `#if`, configure the **Condition** path (e.g. a boolean like `has_error`), and add child blocks. They render only when the condition is met.
+
+## Best practices
+
+- Use clear array paths that match your sample data (e.g. `order.line_items` instead of `items`)
+- Keep loop content focused — one section or a small set of blocks per item
+- Limit large lists with Max Blocks and overflow text
+- Test with different array lengths (empty, one item, many items)
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Placeholders" icon="code" href="/guides/templates-placeholders">
+    Reference data with {"{{path.to.data}}"}.
+  </Card>
+  <Card title="Block types" icon="th-large" href="/guides/templates-blocks">
+    Combine directives with blocks.
+  </Card>
+</CardGroup>
+
+<Expandable title="Need more detail?">
+The full Directives reference covers step-by-step instructions with screenshots, more examples (order items, team members, status dashboard, overflow), nesting directives, and common issues with troubleshooting.
+</Expandable>

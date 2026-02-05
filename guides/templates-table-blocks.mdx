@@ -1,0 +1,183 @@
+---
+title: "Table blocks"
+description: "Display tabular data in Slack messages with table blocks (experimental)."
+---
+
+<Warning>
+Table blocks are an experimental feature. Behavior and APIs may change in future releases.
+</Warning>
+
+Table blocks let you display structured data in a grid format within Slack messages. They work well for lists of items, reports, status dashboards, and any data that benefits from columnar organization.
+
+## Prerequisites
+
+- Understanding of [Blocks](/guides/templates-blocks)
+- Familiarity with [Placeholders](/guides/templates-placeholders)
+- Basic knowledge of [Directives](/guides/templates-directives) (for dynamic data)
+- [Sample data](/guides/templates-sample-data) with array structure
+
+## Key features
+
+- Multiple columns with custom headers
+- Markdown support in cells
+- Column visibility management
+- Dynamic data binding from arrays
+- Responsive layout
+
+**Common use cases:** Order items with quantities and prices, task lists with status and assignees, report summaries, user rosters, inventory lists.
+
+## Table structure
+
+A table has:
+
+1. **Columns** — Headers and data paths
+2. **Rows** — Items from your sample data array
+3. **Cells** — Individual values; can include Markdown
+
+Behind the scenes, table blocks are converted into Slack rich text blocks (one section per row with Markdown).
+
+### Table vs. other blocks
+
+| Feature | Table Block | Directive + Sections | Context Blocks |
+|---------|-------------|---------------------|----------------|
+| Columnar layout | Yes | Manual | Limited |
+| Dynamic rows | Yes | Yes | Yes |
+| Markdown support | Yes | Yes | Limited |
+| Column management | Yes | Manual | N/A |
+| Easy to maintain | Yes | Complex | Simple |
+
+## Step-by-step guide
+
+### Step 1: Prepare your data
+
+Ensure your sample data includes an array of objects:
+
+```json
+{
+  "order_id": "ORD-123",
+  "items": [
+    {
+      "name": "Laptop",
+      "sku": "LAP-001",
+      "quantity": 1,
+      "price": 999.99,
+      "status": "In Stock"
+    },
+    {
+      "name": "Mouse",
+      "sku": "MOU-005",
+      "quantity": 2,
+      "price": 29.99,
+      "status": "In Stock"
+    }
+  ]
+}
+```
+
+### Step 2: Add a table block
+
+1. In the template builder, click **Add Block**
+2. Select **Table**
+3. A table block appears on the canvas
+
+### Step 3: Configure data source
+
+In the table configuration panel:
+
+1. **Array path**: Enter the path to your data array (e.g. `items`, `order.line_items`, `data.results`)
+2. This tells the table where to find the rows
+
+### Step 4: Define columns
+
+Click **Add Column** for each column:
+
+- **Header**: Column title (e.g. "Product Name")
+- **Data path**: Path within each item (e.g. `name`)
+- **Format**: Optional Markdown (e.g. `**{{value}}**` for bold)
+
+Example columns: Product (`name`, bold), SKU (`sku`), Quantity (`quantity`), Price (`price`, `${{value}}`), Status (`status`, italic).
+
+### Step 5: Configure column visibility
+
+Use **Manage Columns** to toggle visibility, reorder columns, and hide technical fields or simplify the view.
+
+### Step 6: Format cell content
+
+Use Markdown in the Format field: `**{{value}}**` (bold), `_{{value}}_` (italic), `` `{{value}}` `` (code), `[View](https://example.com/item/{{id}})` (link).
+
+### Step 7: Row limits (optional)
+
+Set **Max Rows** to cap displayed rows and **Overflow Text** (e.g. `... and {{remaining}} more items`) when truncated.
+
+### Step 8: Preview and test
+
+Use the Preview tab, verify columns and formatting, and test with 0, 1, and many items.
+
+## Configuration options
+
+### Data path syntax
+
+- Simple: `name`
+- Nested: `product.name`
+- Array item: `tags[0]`
+
+### Formatting
+
+Pre-calculate formatted values in your data when possible (currency, percentages, status labels). Use `${{value}}`, `{{value}}%`, or pre-calculated status strings in the format field.
+
+### Empty tables
+
+When the array is empty, no rows render. Add a fallback section before or after the table if you need a "No data" message.
+
+## Examples
+
+**Simple product list:** Array path `products`, columns Product (`name`, bold), Price (`price`, `${{value}}`), In Stock (`stock`, `{{value}} units`).
+
+**Task list:** Array path `tasks`, columns Task, Assigned To, Status, Due Date with appropriate formatting.
+
+**Sales report with links:** Use Markdown in the format field, e.g. `[{{value}}](https://crm.example.com/rep/{{rep_id}})` for rep names. Pre-calculate percentages in data.
+
+## Advanced techniques
+
+- **Dynamic visibility:** Use multiple table variations or conditional logic in your backend; or use directives to conditionally include table blocks.
+- **Sorting:** Sort the array in your backend before sending data to the template.
+- **Totals:** Add a section block after the table with totals; calculate totals in your data, not in the template.
+- **Pagination:** Use Max Rows and overflow text; add buttons to load more or open modals with full data.
+- **Export:** Add a button that triggers a webhook to export table data.
+
+## Tips
+
+- Keep tables concise: 5–7 columns, use Max Rows for long lists.
+- Use clear, short column headers.
+- Format currency, percentages, and dates consistently in your data.
+- Test with empty arrays, one row, and max rows exceeded.
+- Pre-calculate complex values (totals, percentages) in your backend.
+
+## Common issues
+
+**Table not showing rows:** Verify array path matches sample data; ensure the array exists and has items.
+
+**Placeholder text instead of values:** Check property names and nesting; data path must match item shape.
+
+**Formatting not applied:** Check Markdown syntax and that `{{value}}` is used correctly.
+
+**Table too wide:** Reduce columns, shorten headers, or hide less important columns.
+
+**Overflow text not showing:** Set both Max Rows and Overflow Text; use `{{remaining}}` for the count.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Sample data" icon="database" href="/guides/templates-sample-data">
+    Structure array data for tables.
+  </Card>
+  <Card title="Directives" icon="list" href="/guides/templates-directives">
+    Use #each for dynamic rows and conditional blocks.
+  </Card>
+  <Card title="Blocks" icon="square" href="/guides/templates-blocks">
+    Other block types and layout options.
+  </Card>
+  <Card title="Template design" icon="palette" href="/guides/template-design">
+    Best practices for templates and data.
+  </Card>
+</CardGroup>
