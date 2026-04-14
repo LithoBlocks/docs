@@ -30,10 +30,10 @@ Your flow decides **when** and **what** data; LithoBlocks decides **how** the me
 
 1. **Trigger** (e.g. new row, webhook, form submit) in your low-code platform.
 2. **Map data** to the shape your template expects (same as [sample data](/guides/templates-sample-data)).
-3. **HTTP request** to LithoBlocks: POST to `/templates/{template_id}/compile` or `/send` with the payload. See the [API reference](/api-reference/introduction).
+3. **HTTP request** to LithoBlocks: `POST /v1/templates/compile` or `POST /v1/templates/send` with a JSON body that includes `template_id`, `data` (your template fields, same shape as [sample data](/guides/templates-sample-data)), and for send a destination such as `channel_id` where required. See the [API reference](/api-reference/introduction).
 4. **Slack** receives the message (if you use send).
 
-**Inputs:** `template_id`, payload (JSON). **Optional:** Configure a webhook in LithoBlocks so button or modal interactions in Slack trigger your low-code flow.
+**Inputs:** `template_id`, `data` (JSON object). **Optional:** Configure a webhook in LithoBlocks so button or modal interactions in Slack trigger your low-code flow.
 
 ## Prerequisites
 

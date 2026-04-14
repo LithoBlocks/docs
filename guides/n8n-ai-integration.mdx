@@ -22,16 +22,16 @@ Use LithoBlocks with n8n AI nodes so the AI decides **which** template and **wha
 
 1. **AI node** — Use an AI node (e.g. OpenAI, Anthropic) with a system or user prompt that asks the AI to return structured data: `template_id` and `payload` (JSON). Use structured output or JSON mode if available so the output is parseable.
 2. **HTTP Request node** — Add an HTTP Request node that POSTs to LithoBlocks:
-   - **URL:** `https://api.lithoblocks.com/templates/{template_id}/send` (or `/compile`). Set `{template_id}` from the AI node output (e.g. the expression that reads the AI output field for template_id).
+   - **URL:** `https://api.lithoblocks.com/v1/templates/send` or `https://api.lithoblocks.com/v1/templates/compile` (fixed path; template id is not in the URL).
    - **Headers:** `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`
-   - **Body:** JSON from the AI node output (e.g. the payload field from the AI node). Map `template_id` and `payload` from the AI node output into the URL and body.
+   - **Body:** JSON object with `template_id` and `data` from the AI node (map the AI output into `template_id` and `data`; if your AI still returns `payload`, map that value to `data`). For send, include a destination such as `channel_id` as in the [API reference](/api-reference/introduction).
 3. **Optional:** Use a **Webhook** node to receive LithoBlocks webhooks (e.g. button clicks) and feed into another AI node or workflow. See the [n8n integration](/guides/n8n-integration) for webhook setup.
 
 ## Minimal example
 
-1. **AI node (e.g. OpenAI):** Prompt: "Return a JSON object with two keys: template_id (string, the LithoBlocks template ID to use, e.g. 'tmpl_abc123') and payload (object matching the template's placeholders). Example: For an approval message use template_id and payload with keys like user.name, request.title, request.id."
+1. **AI node (e.g. OpenAI):** Prompt: "Return a JSON object with template_id (string) and data (object matching the template's placeholders). You may use the key payload for the data object if easier; map it to data in the HTTP node."
    - Enable JSON/structured output if the node supports it so the response is valid JSON.
-2. **HTTP Request node:** Method POST. URL: `https://api.lithoblocks.com/templates/` + (AI output field for template_id) + `/send`. Body: (AI output field for payload). Headers: Authorization Bearer + your API key, Content-Type application/json.
+2. **HTTP Request node:** Method POST. URL: `https://api.lithoblocks.com/v1/templates/send` (or `/v1/templates/compile`). Body: build `{"template_id": <from AI>, "data": <from AI payload/data>, ...}` plus `channel_id` or another send destination as needed. Headers: Authorization Bearer + your API key, Content-Type application/json.
 3. **Success/error:** Use the HTTP Request node output (status, body) for success or error handling in the next nodes.
 
 See the [API reference](/api-reference/introduction) for the send endpoint parameters (e.g. channel, user) if you need to pass them in the body.

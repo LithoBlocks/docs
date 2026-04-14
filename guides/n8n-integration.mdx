@@ -40,9 +40,9 @@ Until the LithoBlocks n8n node is available, use the **HTTP Request** node to ca
 
 1. In your workflow, add an **HTTP Request** node.
 2. **Method:** POST
-3. **URL:** `https://api.lithoblocks.com/templates/{{ $json.template_id }}/compile` (or use the send endpoint; replace `template_id` with your template ID or a workflow variable). Check the [API reference](/api-reference/introduction) for the exact endpoint and parameters.
+3. **URL:** `https://api.lithoblocks.com/v1/templates/compile` or `https://api.lithoblocks.com/v1/templates/send` (fixed path; the template id goes in the body). Check the [API reference](/api-reference/introduction) for parameters.
 4. **Authentication:** Generic Credential Type → Header Auth: `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY` (or store the key in n8n credentials and reference it).
-5. **Body:** JSON with the data your template expects (same shape as sample data). Use n8n expressions to map data from previous nodes (e.g. `{{ $json.user }}`, `{{ $json.expense }}`).
+5. **Body:** JSON with `template_id`, `data` (object with your template fields; use expressions to build `data` from previous nodes), and for send a destination such as `channel_id` as documented.
 6. The response contains the compiled Slack blocks (compile) or send result (send). Use a subsequent Slack node if you compiled and need to post the blocks yourself, or use the send endpoint so LithoBlocks posts to Slack.
 
 See the [API reference](/api-reference/introduction) for authentication, base URL, and endpoint details. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.

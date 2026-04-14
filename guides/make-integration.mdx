@@ -39,10 +39,10 @@ Until the Make app is available, use Make's **HTTP** module to call the LithoBlo
 ### Send a message from a Make scenario
 
 1. In your scenario, add an **HTTP** module (e.g. "Make a request").
-2. **URL:** `https://api.lithoblocks.com/templates/{template_id}/compile` (or the send endpoint if you use send instead of compile). Check the [API reference](/api-reference/introduction) for the exact endpoint and parameters.
+2. **URL:** `https://api.lithoblocks.com/v1/templates/compile` or `https://api.lithoblocks.com/v1/templates/send` (use send when LithoBlocks should post to Slack). Check the [API reference](/api-reference/introduction) for parameters.
 3. **Method:** POST
 4. **Headers:** `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`
-5. **Body:** JSON with the data your template expects (same shape as sample data). Map your scenario data to this structure.
+5. **Body:** JSON with `template_id`, `data` (object matching your template placeholders), and for send a destination such as `channel_id` as documented. Map your scenario data into `data`.
 6. The response contains the compiled Slack blocks (compile) or send result (send). Use a subsequent Slack module if you compiled and need to post the blocks yourself, or use the send endpoint so LithoBlocks posts to Slack.
 
 See the [API reference](/api-reference/introduction) for authentication, base URL, and endpoint details. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.

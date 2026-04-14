@@ -11,13 +11,13 @@ You can either get compiled JSON blocks and deliver the message yourself (**comp
 
 You then send the compiled message from your own system or your own Slack connections. Button interactions and webhook delivery do not work out-of-the-box or off-the-shelf; they can be configured with your own Slack app (e.g. interactivity URL, request URL) if you need them.
 
-**Where it's available:** The [Compile](/api-reference/introduction) API endpoint. Compilation consumes credits and usage is logged per your organization.
+**Where it's available:** The versioned [Compile](/api-reference/introduction) API (`POST /v1/templates/compile`). Compilation consumes credits and usage is logged per your organization.
 
 ## Send
 
 **What it does:** Send uses the LithoBlocks Slack app to compile the template with your data and post the message to Slack. LithoBlocks owns the delivery and the Slack app connection.
 
-**Where it's available:** Send API routes, send from the builder (testing), and send from the slash command flow.
+**Where it's available:** The versioned send API (`POST /v1/templates/send`), send from the builder (testing), and send from the slash command flow.
 
 You get full functionality of the LithoBlocks platform and services: actions, interactivity, modals, message updates, and webhook delivery. No additional configuration is required besides connecting the LithoBlocks Slack app to your Slack organization.
 
