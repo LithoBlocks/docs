@@ -40,7 +40,7 @@ Until the integration is available, use Airtable **Automations** with **Send web
 
 1. In your base, open **Automations** and create an automation (e.g. trigger: When record created, When record matches conditions).
 2. Add an action. Use **Send webhook** or **Run script**.
-   - **Send webhook:** URL `https://api.lithoblocks.com/templates/{template_id}/compile` (or send endpoint). Method POST. Headers: `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`. Body: JSON built from your trigger record (map Airtable fields to the shape your template expects).
+   - **Send webhook:** URL `https://api.lithoblocks.com/v1/templates/compile` or `https://api.lithoblocks.com/v1/templates/send`. Method POST. Headers: `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`, `Content-Type: application/json`. Body: JSON with `template_id`, `data` (map Airtable fields into `data` to match your template), and for send a destination such as `channel_id` as in the [API reference](/api-reference/introduction).
    - **Run script:** Use `fetch()` or a script extension to POST to the same URL with the same headers and body built from `inputConfig.record`.
 3. The response contains the compiled Slack blocks (compile) or send result (send). Use the send endpoint so LithoBlocks posts to Slack, or add a subsequent step to post to Slack if you use compile.
 4. Map record fields to your template’s placeholders (e.g. `{{request.title}}`, `{{assignee.name}}`) so the message reflects the record.

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
+    "version": "0.0.1",
     "title": "LithoBlocks API",
-    "description": "\n# LithoBlocks API\n\nWelcome to the LithoBlocks API documentation. This API enables you to manage templates, entities, and organizations with a powerful, scope-based authorization system.\n\n## Authentication & Authorization\n\nThis API uses **LithoBlocks API Keys** for authentication with **scope-based authorization** for granular access control.\n\n### Getting Your API Key\n\n1. **Log into your LithoBlocks organization dashboard**\n2. **Navigate to API Keys** in your account settings\n3. **Create a new API key** and select the required scopes\n4. **Copy your API key** (it will only be shown once for security)\n\n### Using Your API Key\n\nInclude your API key in the Authorization header:\n\n```\nAuthorization: Bearer lb_live_sk_example_key_here\n```\n\n### API Key Scopes & Role Requirements\n\nYour available scopes depend on your **organization role**. When creating an API key, you can only select scopes your role permits:\n\n#### 👥 **All Roles** (Viewer, Member, Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `templates:read` | Read access to organization templates |\n| `messages:create` | Compile templates into messages |\n| `entities:read` | Read access to data entities |\n\n#### ✏️ **Member+** (Member, Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `templates:write` | Create, update, and manage templates |\n| `entities:write` | Create, update, and manage entities |\n\n#### 🔑 **Admin+** (Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `organizations:admin` | Update organization settings, manage members |\n| `users:admin` | View and manage organization users |\n\n### API Key Management\n\n- **Multiple Keys**: Create multiple API keys with different scopes for different use cases\n- **Key Rotation**: Regularly rotate your API keys for security\n- **Scope Limitation**: Only request the minimum scopes needed for your application\n- **Organization Scoped**: All API keys are scoped to your organization\n\n### Security Best Practices\n\n- **Never share API keys** or commit them to version control\n- **Use environment variables** to store API keys in your applications\n- **Create separate keys** for development, staging, and production\n- **Revoke unused keys** from your dashboard regularly\n\n### Multi-Tenant Isolation\n\nAll API endpoints enforce **organization-level isolation**:\n- You can only access resources within your organization\n- API keys are tied to the organization where they were created\n- Cross-organization access is never permitted\n\n## Role-Based Access Control\n\n### 👀 **Viewer Role**\n- Can read templates and entities\n- Can compile templates into messages\n- **Cannot** create or modify resources\n- **Cannot** access admin functions\n\n### ✏️ **Member Role** \n- All Viewer permissions\n- Can create and update templates\n- Can create and update entities\n- **Cannot** access admin functions\n\n### 🔧 **Admin Role**\n- All Member permissions  \n- Can manage organization settings\n- Can view and manage users\n- **Cannot** delete the organization\n\n### 👑 **Owner Role**\n- All Admin permissions\n- Full organization control\n- Can delete the organization\n- Can transfer ownership\n            ",
+    "description": "\n# LithoBlocks API\n\nWelcome to the LithoBlocks API documentation. This API enables you to manage templates, entities, and organizations with a powerful, scope-based authorization system.\n\n## API versioning\n\nDocumented operations are under the `/v1` path prefix (for example, `GET /v1/templates`). **Older integrations** may still call the same routes without the `/v1` prefix (for example, `GET /templates`); those URLs remain supported for backward compatibility but are not listed in this OpenAPI document. **New integrations** should use `/v1` URLs.\n\n## JSON and query naming\n\nCanonical names in JSON bodies, query strings, and path parameter names documented here are **snake_case** (for example `organization_id`, `template_id`, `include_author`). During a deprecation window, many inputs still accept legacy **camelCase** keys for the same values (for example `templateId` in place of `template_id`). **Responses** use snake_case for multi-word keys. Prefer snake_case for new clients; camelCase on input may be removed in a future version.\n\n## Authentication & Authorization\n\nThis API uses **LithoBlocks API Keys** for authentication with **scope-based authorization** for granular access control.\n\n### Getting Your API Key\n\n1. **Log into your LithoBlocks organization dashboard**\n2. **Navigate to API Keys** in your account settings\n3. **Create a new API key** and select the required scopes\n4. **Copy your API key** (it will only be shown once for security)\n\n### Using Your API Key\n\nInclude your API key in the Authorization header:\n\n```\nAuthorization: Bearer lb_live_sk_example_key_here\n```\n\n### API Key Scopes & Role Requirements\n\nYour available scopes depend on your **organization role**. When creating an API key, you can only select scopes your role permits:\n\n#### 👥 **All Roles** (Viewer, Member, Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `templates:read` | Read access to organization templates |\n| `messages:create` | Compile templates into messages |\n| `entities:read` | Read access to data entities |\n\n#### ✏️ **Member+** (Member, Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `templates:write` | Create, update, and manage templates |\n| `entities:write` | Create, update, and manage entities |\n\n#### 🔑 **Admin+** (Admin, Owner)\n| Scope | Description |\n|-------|-------------|\n| `organizations:admin` | Update organization settings, manage members |\n| `users:admin` | View and manage organization users |\n\n### API Key Management\n\n- **Multiple Keys**: Create multiple API keys with different scopes for different use cases\n- **Key Rotation**: Regularly rotate your API keys for security\n- **Scope Limitation**: Only request the minimum scopes needed for your application\n- **Organization Scoped**: All API keys are scoped to your organization\n\n### Security Best Practices\n\n- **Never share API keys** or commit them to version control\n- **Use environment variables** to store API keys in your applications\n- **Create separate keys** for development, staging, and production\n- **Revoke unused keys** from your dashboard regularly\n\n### Multi-Tenant Isolation\n\nAll API endpoints enforce **organization-level isolation**:\n- You can only access resources within your organization\n- API keys are tied to the organization where they were created\n- Cross-organization access is never permitted\n\n## Role-Based Access Control\n\n### 👀 **Viewer Role**\n- Can read templates and entities\n- Can compile templates into messages\n- **Cannot** create or modify resources\n- **Cannot** access admin functions\n\n### ✏️ **Member Role** \n- All Viewer permissions\n- Can create and update templates\n- Can create and update entities\n- **Cannot** access admin functions\n\n### 🔧 **Admin Role**\n- All Member permissions  \n- Can manage organization settings\n- Can view and manage users\n- **Cannot** delete the organization\n\n### 👑 **Owner Role**\n- All Admin permissions\n- Full organization control\n- Can delete the organization\n- Can transfer ownership\n            ",
     "contact": {
       "name": "LithoBlocks",
       "url": "https://lithoblocks.com",
@@ -13,11 +13,15 @@
   "servers": [
     {
       "url": "https://api.lithoblocks.com",
-      "description": "Production server"
+      "description": "Production (paths in this spec are rooted at /v1/...)"
+    },
+    {
+      "url": "https://staging.api.lithoblocks.com",
+      "description": "Staging (paths in this spec are rooted at /v1/...)"
     },
     {
       "url": "http://localhost:8787",
-      "description": "Development server"
+      "description": "Local dev (paths in this spec are rooted at /v1/...)"
     }
   ],
   "components": {
@@ -33,7 +37,7 @@
     "parameters": {}
   },
   "paths": {
-    "/templates": {
+    "/v1/templates": {
       "get": {
         "tags": [
           "Templates"
@@ -104,19 +108,19 @@
                       "description": {
                         "type": "string"
                       },
-                      "createdAt": {
+                      "created_at": {
                         "type": "string"
                       },
-                      "updatedAt": {
+                      "updated_at": {
                         "type": "string"
                       },
-                      "isPublic": {
+                      "is_public": {
                         "type": "boolean"
                       },
-                      "currentVersionId": {
+                      "current_version_id": {
                         "type": "string"
                       },
-                      "authorId": {
+                      "author_id": {
                         "type": "string"
                       },
                       "author": {
@@ -138,25 +142,25 @@
                           "email"
                         ]
                       },
-                      "requestFormat": {
+                      "request_format": {
                         "type": "object",
                         "additionalProperties": {
                           "type": "string"
                         }
                       },
-                      "ccUsers": {
+                      "cc_users": {
                         "type": "array",
                         "items": {
                           "type": "string"
                         }
                       },
-                      "iconEmoji": {
+                      "icon_emoji": {
                         "type": "string"
                       },
-                      "userName": {
+                      "user_name": {
                         "type": "string"
                       },
-                      "currentVersion": {
+                      "current_version": {
                         "type": "object",
                         "properties": {
                           "id": {
@@ -168,10 +172,10 @@
                           "description": {
                             "type": "string"
                           },
-                          "createdAt": {
+                          "created_at": {
                             "type": "string"
                           },
-                          "updatedAt": {
+                          "updated_at": {
                             "type": "string"
                           },
                           "status": {
@@ -180,22 +184,22 @@
                           "type": {
                             "type": "string"
                           },
-                          "iconEmoji": {
+                          "icon_emoji": {
                             "type": "string"
                           },
-                          "userName": {
+                          "user_name": {
                             "type": "string"
                           },
-                          "ccUsers": {
+                          "cc_users": {
                             "type": "array",
                             "items": {
                               "type": "string"
                             }
                           },
-                          "authorId": {
+                          "author_id": {
                             "type": "string"
                           },
-                          "requestFormat": {
+                          "request_format": {
                             "type": "object",
                             "additionalProperties": {
                               "type": "string"
@@ -206,15 +210,15 @@
                           "id",
                           "name",
                           "description",
-                          "createdAt",
-                          "updatedAt",
+                          "created_at",
+                          "updated_at",
                           "status",
                           "type",
-                          "iconEmoji",
-                          "userName",
-                          "ccUsers",
-                          "authorId",
-                          "requestFormat"
+                          "icon_emoji",
+                          "user_name",
+                          "cc_users",
+                          "author_id",
+                          "request_format"
                         ]
                       }
                     },
@@ -222,17 +226,15 @@
                       "id",
                       "name",
                       "description",
-                      "createdAt",
-                      "updatedAt",
-                      "isPublic",
-                      "currentVersionId",
-                      "authorId",
-                      "author",
-                      "requestFormat",
-                      "ccUsers",
-                      "iconEmoji",
-                      "userName",
-                      "currentVersion"
+                      "created_at",
+                      "updated_at",
+                      "is_public",
+                      "current_version_id",
+                      "author_id",
+                      "request_format",
+                      "cc_users",
+                      "icon_emoji",
+                      "user_name"
                     ]
                   }
                 }
@@ -322,7 +324,7 @@
         }
       }
     },
-    "/templates/{id}": {
+    "/v1/templates/{id}": {
       "get": {
         "tags": [
           "Templates"
@@ -388,150 +390,145 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "createdAt": {
-                        "type": "string"
-                      },
-                      "updatedAt": {
-                        "type": "string"
-                      },
-                      "isPublic": {
-                        "type": "boolean"
-                      },
-                      "currentVersionId": {
-                        "type": "string"
-                      },
-                      "authorId": {
-                        "type": "string"
-                      },
-                      "author": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "type": "string"
-                          }
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "is_public": {
+                      "type": "boolean"
+                    },
+                    "current_version_id": {
+                      "type": "string"
+                    },
+                    "author_id": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "email"
-                        ]
-                      },
-                      "requestFormat": {
-                        "type": "object",
-                        "additionalProperties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
                           "type": "string"
                         }
                       },
-                      "ccUsers": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "iconEmoji": {
+                      "required": [
+                        "id",
+                        "name",
+                        "email"
+                      ]
+                    },
+                    "request_format": {
+                      "type": "object",
+                      "additionalProperties": {
                         "type": "string"
-                      },
-                      "userName": {
-                        "type": "string"
-                      },
-                      "currentVersion": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "createdAt": {
-                            "type": "string"
-                          },
-                          "updatedAt": {
-                            "type": "string"
-                          },
-                          "status": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          },
-                          "iconEmoji": {
-                            "type": "string"
-                          },
-                          "userName": {
-                            "type": "string"
-                          },
-                          "ccUsers": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "authorId": {
-                            "type": "string"
-                          },
-                          "requestFormat": {
-                            "type": "object",
-                            "additionalProperties": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                          "description",
-                          "createdAt",
-                          "updatedAt",
-                          "status",
-                          "type",
-                          "iconEmoji",
-                          "userName",
-                          "ccUsers",
-                          "authorId",
-                          "requestFormat"
-                        ]
                       }
                     },
-                    "required": [
-                      "id",
-                      "name",
-                      "description",
-                      "createdAt",
-                      "updatedAt",
-                      "isPublic",
-                      "currentVersionId",
-                      "authorId",
-                      "author",
-                      "requestFormat",
-                      "ccUsers",
-                      "iconEmoji",
-                      "userName",
-                      "currentVersion"
-                    ]
-                  }
+                    "cc_users": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "icon_emoji": {
+                      "type": "string"
+                    },
+                    "user_name": {
+                      "type": "string"
+                    },
+                    "current_version": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "icon_emoji": {
+                          "type": "string"
+                        },
+                        "user_name": {
+                          "type": "string"
+                        },
+                        "cc_users": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "author_id": {
+                          "type": "string"
+                        },
+                        "request_format": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "created_at",
+                        "updated_at",
+                        "status",
+                        "type",
+                        "icon_emoji",
+                        "user_name",
+                        "cc_users",
+                        "author_id",
+                        "request_format"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "created_at",
+                    "updated_at",
+                    "is_public",
+                    "current_version_id",
+                    "author_id",
+                    "request_format",
+                    "cc_users",
+                    "icon_emoji",
+                    "user_name"
+                  ]
                 }
               }
             }
@@ -645,7 +642,7 @@
           "Templates"
         ],
         "summary": "Update template metadata",
-        "description": "Update the metadata for a specific template (name, type, user_name, icon_emoji). Only the template author or users in the same organization can update templates.",
+        "description": "Update template metadata (`user_name`, `icon_emoji`, etc.). Legacy camelCase keys accepted during deprecation.",
         "security": [
           {
             "bearerAuth": [
@@ -712,15 +709,15 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "userName": {
+                    "user_name": {
                       "type": "string",
                       "nullable": true
                     },
-                    "iconEmoji": {
+                    "icon_emoji": {
                       "type": "string",
                       "nullable": true
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     },
                     "message": {
@@ -731,9 +728,9 @@
                     "id",
                     "name",
                     "type",
-                    "userName",
-                    "iconEmoji",
-                    "updatedAt",
+                    "user_name",
+                    "icon_emoji",
+                    "updated_at",
                     "message"
                   ]
                 }
@@ -831,28 +828,18 @@
         }
       }
     },
-    "/templates/{id}/compile": {
+    "/v1/templates/compile": {
       "post": {
         "tags": [
           "Templates"
         ],
         "summary": "Compile a template",
-        "description": "Use this request with the template_id and your specific data to receive a fully compiled message string. This endpoint manages credits, logs usage, and provides comprehensive template compilation with error handling.",
+        "description": "Provide `template_id` and `data` in the JSON body (legacy `templateId` accepted). Manages credits and returns `compiled_message`. Legacy path: POST /templates/{id}/compile.",
         "security": [
           {
             "bearerAuth": [
               "messages:create"
             ]
-          }
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "name": "id",
-            "in": "path"
           }
         ],
         "requestBody": {
@@ -925,6 +912,23 @@
                     },
                     "remaining_credits": {
                       "type": "number"
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "slack_truncation": {
+                      "type": "object",
+                      "properties": {
+                        "fields_truncated": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "fields_truncated"
+                      ]
                     }
                   },
                   "required": [
@@ -1059,28 +1063,18 @@
         }
       }
     },
-    "/templates/{id}/send": {
+    "/v1/templates/send": {
       "post": {
         "tags": [
           "Templates"
         ],
         "summary": "Send a template message to Slack",
-        "description": "Compile a template with provided data and send it to Slack via the organization's Slack connection. Credits are deducted only after successful send.",
+        "description": "Provide `template_id`, `data`, and a destination (`channel_id`, `recipient_email`, or `recipient_slack_id`). Legacy camelCase keys accepted.",
         "security": [
           {
             "bearerAuth": [
               "messages:create"
             ]
-          }
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "name": "id",
-            "in": "path"
           }
         ],
         "requestBody": {
@@ -1091,24 +1085,28 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "template_id": {
+                    "type": "string"
+                  },
                   "data": {
                     "type": "object",
                     "additionalProperties": {
                       "nullable": true
                     }
                   },
-                  "channelId": {
+                  "channel_id": {
                     "type": "string"
                   },
-                  "recipientEmail": {
+                  "recipient_email": {
                     "type": "string",
                     "format": "email"
                   },
-                  "recipientSlackId": {
+                  "recipient_slack_id": {
                     "type": "string"
                   }
                 },
                 "required": [
+                  "template_id",
                   "data"
                 ]
               }
@@ -1134,6 +1132,23 @@
                     },
                     "remaining_credits": {
                       "type": "number"
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "slack_truncation": {
+                      "type": "object",
+                      "properties": {
+                        "fields_truncated": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "fields_truncated"
+                      ]
                     }
                   },
                   "required": [
@@ -1253,28 +1268,18 @@
         }
       }
     },
-    "/templates/{id}/send-bulk": {
+    "/v1/templates/send-bulk": {
       "post": {
         "tags": [
           "Templates"
         ],
         "summary": "Send a template message to multiple Slack destinations",
-        "description": "Compile a template with provided data and send it to multiple Slack channels or users. Creates a credit log per destination. Credits are deducted only after successful sends.",
+        "description": "Provide `template_id`, `data`, and `destinations`. Legacy camelCase keys accepted.",
         "security": [
           {
             "bearerAuth": [
               "messages:create"
             ]
-          }
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "name": "id",
-            "in": "path"
           }
         ],
         "requestBody": {
@@ -1285,6 +1290,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "template_id": {
+                    "type": "string"
+                  },
                   "data": {
                     "type": "object",
                     "additionalProperties": {
@@ -1296,14 +1304,14 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "channelId": {
+                        "channel_id": {
                           "type": "string"
                         },
-                        "recipientEmail": {
+                        "recipient_email": {
                           "type": "string",
                           "format": "email"
                         },
-                        "recipientSlackId": {
+                        "recipient_slack_id": {
                           "type": "string"
                         }
                       }
@@ -1313,6 +1321,7 @@
                   }
                 },
                 "required": [
+                  "template_id",
                   "data",
                   "destinations"
                 ]
@@ -1339,14 +1348,14 @@
                           "destination": {
                             "type": "object",
                             "properties": {
-                              "channelId": {
+                              "channel_id": {
                                 "type": "string"
                               },
-                              "recipientEmail": {
+                              "recipient_email": {
                                 "type": "string",
                                 "format": "email"
                               },
-                              "recipientSlackId": {
+                              "recipient_slack_id": {
                                 "type": "string"
                               }
                             }
@@ -1382,6 +1391,23 @@
                     },
                     "remaining_credits": {
                       "type": "number"
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "slack_truncation": {
+                      "type": "object",
+                      "properties": {
+                        "fields_truncated": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "fields_truncated"
+                      ]
                     }
                   },
                   "required": [
@@ -1502,7 +1528,7 @@
         }
       }
     },
-    "/credits/{organization_id}": {
+    "/v1/credits/{organization_id}": {
       "get": {
         "tags": [
           "Credits"
@@ -1648,7 +1674,7 @@
         }
       }
     },
-    "/credits/{organization_id}/logs": {
+    "/v1/credits/{organization_id}/logs": {
       "get": {
         "tags": [
           "Credits"
@@ -1826,7 +1852,7 @@
         }
       }
     },
-    "/organizations/{id}": {
+    "/v1/organizations/{id}": {
       "get": {
         "tags": [
           "Organizations"
@@ -1867,13 +1893,13 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "memberCount": {
+                    "member_count": {
                       "type": "number"
                     },
-                    "creditBalance": {
+                    "credit_balance": {
                       "type": "number"
                     }
                   },
@@ -1881,9 +1907,9 @@
                     "id",
                     "name",
                     "status",
-                    "createdAt",
-                    "memberCount",
-                    "creditBalance"
+                    "created_at",
+                    "member_count",
+                    "credit_balance"
                   ]
                 }
               }
@@ -2020,10 +2046,10 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     }
                   },
@@ -2031,8 +2057,8 @@
                     "id",
                     "name",
                     "status",
-                    "createdAt",
-                    "updatedAt"
+                    "created_at",
+                    "updated_at"
                   ]
                 }
               }
@@ -2107,7 +2133,7 @@
         }
       }
     },
-    "/organizations/{id}/members": {
+    "/v1/organizations/{id}/members": {
       "get": {
         "tags": [
           "Organizations"
@@ -2144,11 +2170,11 @@
                       "id": {
                         "type": "string"
                       },
-                      "firstName": {
+                      "first_name": {
                         "type": "string",
                         "nullable": true
                       },
-                      "lastName": {
+                      "last_name": {
                         "type": "string",
                         "nullable": true
                       },
@@ -2165,22 +2191,22 @@
                           "viewer"
                         ]
                       },
-                      "createdAt": {
+                      "created_at": {
                         "type": "string"
                       },
-                      "lastActive": {
+                      "last_active": {
                         "type": "string",
                         "nullable": true
                       }
                     },
                     "required": [
                       "id",
-                      "firstName",
-                      "lastName",
+                      "first_name",
+                      "last_name",
                       "email",
                       "role",
-                      "createdAt",
-                      "lastActive"
+                      "created_at",
+                      "last_active"
                     ]
                   }
                 }
@@ -2256,7 +2282,7 @@
         }
       }
     },
-    "/organizations/{id}/invite": {
+    "/v1/organizations/{id}/invite": {
       "post": {
         "tags": [
           "Organizations"
@@ -2326,14 +2352,14 @@
                     "message": {
                       "type": "string"
                     },
-                    "invitationId": {
+                    "invitation_id": {
                       "type": "string"
                     }
                   },
                   "required": [
                     "success",
                     "message",
-                    "invitationId"
+                    "invitation_id"
                   ]
                 }
               }
@@ -2430,7 +2456,7 @@
         }
       }
     },
-    "/users/profile": {
+    "/v1/users/profile": {
       "get": {
         "tags": [
           "Users"
@@ -2453,11 +2479,11 @@
                     "id": {
                       "type": "string"
                     },
-                    "firstName": {
+                    "first_name": {
                       "type": "string",
                       "nullable": true
                     },
-                    "lastName": {
+                    "last_name": {
                       "type": "string",
                       "nullable": true
                     },
@@ -2465,25 +2491,25 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "organizationId": {
+                    "organization_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     }
                   },
                   "required": [
                     "id",
-                    "firstName",
-                    "lastName",
+                    "first_name",
+                    "last_name",
                     "email",
-                    "organizationId",
-                    "createdAt",
-                    "updatedAt"
+                    "organization_id",
+                    "created_at",
+                    "updated_at"
                   ]
                 }
               }
@@ -2540,7 +2566,7 @@
           "Users"
         ],
         "summary": "Update user profile",
-        "description": "Update the current user's profile information (first name, last name, and/or email)",
+        "description": "Update the current user's profile (snake_case keys; legacy camelCase accepted during deprecation).",
         "security": [
           {
             "bearerAuth": []
@@ -2582,11 +2608,11 @@
                     "id": {
                       "type": "string"
                     },
-                    "firstName": {
+                    "first_name": {
                       "type": "string",
                       "nullable": true
                     },
-                    "lastName": {
+                    "last_name": {
                       "type": "string",
                       "nullable": true
                     },
@@ -2594,25 +2620,25 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "organizationId": {
+                    "organization_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     }
                   },
                   "required": [
                     "id",
-                    "firstName",
-                    "lastName",
+                    "first_name",
+                    "last_name",
                     "email",
-                    "organizationId",
-                    "createdAt",
-                    "updatedAt"
+                    "organization_id",
+                    "created_at",
+                    "updated_at"
                   ]
                 }
               }
@@ -2665,7 +2691,7 @@
         }
       }
     },
-    "/users/{id}": {
+    "/v1/users/{id}": {
       "get": {
         "tags": [
           "Users"
@@ -2700,11 +2726,11 @@
                     "id": {
                       "type": "string"
                     },
-                    "firstName": {
+                    "first_name": {
                       "type": "string",
                       "nullable": true
                     },
-                    "lastName": {
+                    "last_name": {
                       "type": "string",
                       "nullable": true
                     },
@@ -2712,11 +2738,11 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "organizationId": {
+                    "organization_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
                     "role": {
@@ -2732,11 +2758,11 @@
                   },
                   "required": [
                     "id",
-                    "firstName",
-                    "lastName",
+                    "first_name",
+                    "last_name",
                     "email",
-                    "organizationId",
-                    "createdAt",
+                    "organization_id",
+                    "created_at",
                     "role"
                   ]
                 }
@@ -2926,7 +2952,7 @@
         }
       }
     },
-    "/templates/{id}/versions": {
+    "/v1/templates/{id}/versions": {
       "get": {
         "tags": [
           "Template Versions"
@@ -2961,62 +2987,48 @@
                       "id": {
                         "type": "string"
                       },
-                      "templateId": {
+                      "template_id": {
                         "type": "string"
                       },
-                      "versionNumber": {
+                      "version_number": {
                         "type": "number"
                       },
                       "message": {
-                        "type": "object",
-                        "additionalProperties": {
-                          "nullable": true
-                        }
+                        "nullable": true
                       },
                       "status": {
                         "type": "string"
                       },
-                      "isCurrent": {
+                      "is_current": {
                         "type": "boolean"
                       },
-                      "createdAt": {
+                      "created_at": {
                         "type": "string"
                       },
-                      "createdBy": {
+                      "created_by": {
                         "type": "string",
                         "nullable": true
                       },
-                      "sampleData": {
-                        "type": "object",
-                        "nullable": true,
-                        "additionalProperties": {
-                          "nullable": true
-                        }
+                      "sample_data": {
+                        "nullable": true
                       },
-                      "entityId": {
+                      "entity_id": {
                         "type": "string",
                         "nullable": true
                       },
-                      "requestFormat": {
-                        "type": "object",
-                        "nullable": true,
-                        "additionalProperties": {
-                          "nullable": true
-                        }
+                      "request_format": {
+                        "nullable": true
                       }
                     },
                     "required": [
                       "id",
-                      "templateId",
-                      "versionNumber",
-                      "message",
+                      "template_id",
+                      "version_number",
                       "status",
-                      "isCurrent",
-                      "createdAt",
-                      "createdBy",
-                      "sampleData",
-                      "entityId",
-                      "requestFormat"
+                      "is_current",
+                      "created_at",
+                      "created_by",
+                      "entity_id"
                     ]
                   }
                 }
@@ -3096,7 +3108,7 @@
           "Template Versions"
         ],
         "summary": "Create new template version",
-        "description": "Create a new version of a template",
+        "description": "Create a new version of a template. snake_case body keys; legacy camelCase accepted.",
         "security": [
           {
             "bearerAuth": []
@@ -3121,34 +3133,22 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "nullable": true
-                    }
+                    "nullable": true
                   },
                   "status": {
                     "type": "string",
                     "default": "draft"
                   },
-                  "sampleData": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "nullable": true
-                    }
+                  "sample_data": {
+                    "nullable": true
                   },
-                  "entityId": {
+                  "entity_id": {
                     "type": "string"
                   },
-                  "requestFormat": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "nullable": true
-                    }
+                  "request_format": {
+                    "nullable": true
                   }
-                },
-                "required": [
-                  "message"
-                ]
+                }
               }
             }
           }
@@ -3164,62 +3164,48 @@
                     "id": {
                       "type": "string"
                     },
-                    "templateId": {
+                    "template_id": {
                       "type": "string"
                     },
-                    "versionNumber": {
+                    "version_number": {
                       "type": "number"
                     },
                     "message": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                      "nullable": true
                     },
                     "status": {
                       "type": "string"
                     },
-                    "isCurrent": {
+                    "is_current": {
                       "type": "boolean"
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "createdBy": {
+                    "created_by": {
                       "type": "string",
                       "nullable": true
                     },
-                    "sampleData": {
-                      "type": "object",
-                      "nullable": true,
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                    "sample_data": {
+                      "nullable": true
                     },
-                    "entityId": {
+                    "entity_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "requestFormat": {
-                      "type": "object",
-                      "nullable": true,
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                    "request_format": {
+                      "nullable": true
                     }
                   },
                   "required": [
                     "id",
-                    "templateId",
-                    "versionNumber",
-                    "message",
+                    "template_id",
+                    "version_number",
                     "status",
-                    "isCurrent",
-                    "createdAt",
-                    "createdBy",
-                    "sampleData",
-                    "entityId",
-                    "requestFormat"
+                    "is_current",
+                    "created_at",
+                    "created_by",
+                    "entity_id"
                   ]
                 }
               }
@@ -3294,7 +3280,7 @@
         }
       }
     },
-    "/templates/{id}/versions/{versionId}": {
+    "/v1/templates/{id}/versions/{version_id}": {
       "get": {
         "tags": [
           "Template Versions"
@@ -3320,7 +3306,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "versionId",
+            "name": "version_id",
             "in": "path"
           }
         ],
@@ -3335,62 +3321,48 @@
                     "id": {
                       "type": "string"
                     },
-                    "templateId": {
+                    "template_id": {
                       "type": "string"
                     },
-                    "versionNumber": {
+                    "version_number": {
                       "type": "number"
                     },
                     "message": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                      "nullable": true
                     },
                     "status": {
                       "type": "string"
                     },
-                    "isCurrent": {
+                    "is_current": {
                       "type": "boolean"
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "createdBy": {
+                    "created_by": {
                       "type": "string",
                       "nullable": true
                     },
-                    "sampleData": {
-                      "type": "object",
-                      "nullable": true,
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                    "sample_data": {
+                      "nullable": true
                     },
-                    "entityId": {
+                    "entity_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "requestFormat": {
-                      "type": "object",
-                      "nullable": true,
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                    "request_format": {
+                      "nullable": true
                     }
                   },
                   "required": [
                     "id",
-                    "templateId",
-                    "versionNumber",
-                    "message",
+                    "template_id",
+                    "version_number",
                     "status",
-                    "isCurrent",
-                    "createdAt",
-                    "createdBy",
-                    "sampleData",
-                    "entityId",
-                    "requestFormat"
+                    "is_current",
+                    "created_at",
+                    "created_by",
+                    "entity_id"
                   ]
                 }
               }
@@ -3465,7 +3437,7 @@
         }
       }
     },
-    "/templates/{id}/versions/{versionId}/activate": {
+    "/v1/templates/{id}/versions/{version_id}/activate": {
       "post": {
         "tags": [
           "Template Versions"
@@ -3491,7 +3463,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "versionId",
+            "name": "version_id",
             "in": "path"
           }
         ],
@@ -3509,26 +3481,26 @@
                     "message": {
                       "type": "string"
                     },
-                    "currentVersion": {
+                    "current_version": {
                       "type": "object",
                       "properties": {
                         "id": {
                           "type": "string"
                         },
-                        "versionNumber": {
+                        "version_number": {
                           "type": "number"
                         }
                       },
                       "required": [
                         "id",
-                        "versionNumber"
+                        "version_number"
                       ]
                     }
                   },
                   "required": [
                     "success",
                     "message",
-                    "currentVersion"
+                    "current_version"
                   ]
                 }
               }
@@ -3603,7 +3575,7 @@
         }
       }
     },
-    "/organizations/{id}/entities": {
+    "/v1/organizations/{id}/entities": {
       "get": {
         "tags": [
           "Entities"
@@ -3647,16 +3619,16 @@
                         "type": "string",
                         "nullable": true
                       },
-                      "organizationId": {
+                      "organization_id": {
                         "type": "string"
                       },
-                      "createdAt": {
+                      "created_at": {
                         "type": "string"
                       },
-                      "updatedAt": {
+                      "updated_at": {
                         "type": "string"
                       },
-                      "fieldCount": {
+                      "field_count": {
                         "type": "number"
                       }
                     },
@@ -3664,10 +3636,10 @@
                       "id",
                       "name",
                       "description",
-                      "organizationId",
-                      "createdAt",
-                      "updatedAt",
-                      "fieldCount"
+                      "organization_id",
+                      "created_at",
+                      "updated_at",
+                      "field_count"
                     ]
                   }
                 }
@@ -3743,7 +3715,7 @@
         }
       }
     },
-    "/entities/{id}": {
+    "/v1/entities/{id}": {
       "get": {
         "tags": [
           "Entities"
@@ -3785,13 +3757,13 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "organizationId": {
+                    "organization_id": {
                       "type": "string"
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     },
                     "fields": {
@@ -3820,14 +3792,14 @@
                             "type": "string",
                             "nullable": true
                           },
-                          "isRequired": {
+                          "is_required": {
                             "type": "boolean"
                           },
-                          "parentFieldId": {
+                          "parent_field_id": {
                             "type": "string",
                             "nullable": true
                           },
-                          "arrayItemType": {
+                          "array_item_type": {
                             "type": "string",
                             "nullable": true,
                             "enum": [
@@ -3839,12 +3811,8 @@
                               "object"
                             ]
                           },
-                          "objectSchema": {
-                            "type": "object",
-                            "nullable": true,
-                            "additionalProperties": {
-                              "nullable": true
-                            }
+                          "object_schema": {
+                            "nullable": true
                           },
                           "path": {
                             "type": "array",
@@ -3853,10 +3821,10 @@
                               "type": "string"
                             }
                           },
-                          "createdAt": {
+                          "created_at": {
                             "type": "string"
                           },
-                          "updatedAt": {
+                          "updated_at": {
                             "type": "string"
                           }
                         },
@@ -3865,13 +3833,12 @@
                           "name",
                           "type",
                           "description",
-                          "isRequired",
-                          "parentFieldId",
-                          "arrayItemType",
-                          "objectSchema",
+                          "is_required",
+                          "parent_field_id",
+                          "array_item_type",
                           "path",
-                          "createdAt",
-                          "updatedAt"
+                          "created_at",
+                          "updated_at"
                         ]
                       }
                     }
@@ -3880,9 +3847,9 @@
                     "id",
                     "name",
                     "description",
-                    "organizationId",
-                    "createdAt",
-                    "updatedAt",
+                    "organization_id",
+                    "created_at",
+                    "updated_at",
                     "fields"
                   ]
                 }
@@ -4020,13 +3987,13 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "organizationId": {
+                    "organization_id": {
                       "type": "string"
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     }
                   },
@@ -4034,9 +4001,9 @@
                     "id",
                     "name",
                     "description",
-                    "organizationId",
-                    "createdAt",
-                    "updatedAt"
+                    "organization_id",
+                    "created_at",
+                    "updated_at"
                   ]
                 }
               }
@@ -4225,13 +4192,13 @@
         }
       }
     },
-    "/entities/{entityId}/fields/{fieldId}": {
+    "/v1/entities/{entity_id}/fields/{field_id}": {
       "patch": {
         "tags": [
           "Entities"
         ],
         "summary": "Update entity field",
-        "description": "Update an entity field (Member+ role required)",
+        "description": "Update an entity field (Member+ role required). snake_case body; legacy camelCase accepted.",
         "security": [
           {
             "bearerAuth": [
@@ -4245,7 +4212,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "entityId",
+            "name": "entity_id",
             "in": "path"
           },
           {
@@ -4253,7 +4220,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "fieldId",
+            "name": "field_id",
             "in": "path"
           }
         ],
@@ -4282,10 +4249,10 @@
                   "description": {
                     "type": "string"
                   },
-                  "isRequired": {
+                  "is_required": {
                     "type": "boolean"
                   },
-                  "arrayItemType": {
+                  "array_item_type": {
                     "type": "string",
                     "enum": [
                       "string",
@@ -4296,11 +4263,8 @@
                       "object"
                     ]
                   },
-                  "objectSchema": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "nullable": true
-                    }
+                  "object_schema": {
+                    "nullable": true
                   }
                 }
               }
@@ -4336,14 +4300,14 @@
                       "type": "string",
                       "nullable": true
                     },
-                    "isRequired": {
+                    "is_required": {
                       "type": "boolean"
                     },
-                    "parentFieldId": {
+                    "parent_field_id": {
                       "type": "string",
                       "nullable": true
                     },
-                    "arrayItemType": {
+                    "array_item_type": {
                       "type": "string",
                       "nullable": true,
                       "enum": [
@@ -4355,12 +4319,8 @@
                         "object"
                       ]
                     },
-                    "objectSchema": {
-                      "type": "object",
-                      "nullable": true,
-                      "additionalProperties": {
-                        "nullable": true
-                      }
+                    "object_schema": {
+                      "nullable": true
                     },
                     "path": {
                       "type": "array",
@@ -4369,10 +4329,10 @@
                         "type": "string"
                       }
                     },
-                    "createdAt": {
+                    "created_at": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "updated_at": {
                       "type": "string"
                     }
                   },
@@ -4381,13 +4341,12 @@
                     "name",
                     "type",
                     "description",
-                    "isRequired",
-                    "parentFieldId",
-                    "arrayItemType",
-                    "objectSchema",
+                    "is_required",
+                    "parent_field_id",
+                    "array_item_type",
                     "path",
-                    "createdAt",
-                    "updatedAt"
+                    "created_at",
+                    "updated_at"
                   ]
                 }
               }
@@ -4480,7 +4439,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "entityId",
+            "name": "entity_id",
             "in": "path"
           },
           {
@@ -4488,7 +4447,7 @@
               "type": "string"
             },
             "required": true,
-            "name": "fieldId",
+            "name": "field_id",
             "in": "path"
           }
         ],
@@ -4584,13 +4543,13 @@
         }
       }
     },
-    "/search/templates": {
+    "/v1/search/templates": {
       "get": {
         "tags": [
           "Search"
         ],
         "summary": "Search templates",
-        "description": "Search templates by name, description, or content",
+        "description": "Search templates by name, description, or content. Query params use snake_case; legacy camelCase (`publicOnly`, `organizationId`) is accepted during deprecation.",
         "security": [
           {
             "bearerAuth": []
@@ -4673,30 +4632,30 @@
                             "type": "string",
                             "nullable": true
                           },
-                          "isPublic": {
+                          "is_public": {
                             "type": "boolean",
                             "nullable": true
                           },
-                          "authorId": {
+                          "author_id": {
                             "type": "string",
                             "nullable": true
                           },
-                          "authorName": {
+                          "author_name": {
                             "type": "string",
                             "nullable": true
                           },
-                          "organizationId": {
+                          "organization_id": {
                             "type": "string",
                             "nullable": true
                           },
-                          "createdAt": {
+                          "created_at": {
                             "type": "string"
                           },
-                          "updatedAt": {
+                          "updated_at": {
                             "type": "string",
                             "nullable": true
                           },
-                          "matchScore": {
+                          "match_score": {
                             "type": "number",
                             "description": "Relevance score from 0-1"
                           }
@@ -4705,13 +4664,13 @@
                           "id",
                           "name",
                           "type",
-                          "isPublic",
-                          "authorId",
-                          "authorName",
-                          "organizationId",
-                          "createdAt",
-                          "updatedAt",
-                          "matchScore"
+                          "is_public",
+                          "author_id",
+                          "author_name",
+                          "organization_id",
+                          "created_at",
+                          "updated_at",
+                          "match_score"
                         ]
                       }
                     },
@@ -4782,13 +4741,13 @@
         }
       }
     },
-    "/search/entities": {
+    "/v1/search/entities": {
       "get": {
         "tags": [
           "Search"
         ],
         "summary": "Search entities",
-        "description": "Search entities by name, description, or field names",
+        "description": "Search entities by name, description, or field names. snake_case query params; legacy camelCase accepted.",
         "security": [
           {
             "bearerAuth": []
@@ -4860,23 +4819,23 @@
                             "type": "string",
                             "nullable": true
                           },
-                          "organizationId": {
+                          "organization_id": {
                             "type": "string"
                           },
-                          "fieldCount": {
+                          "field_count": {
                             "type": "number"
                           },
-                          "createdAt": {
+                          "created_at": {
                             "type": "string"
                           },
-                          "updatedAt": {
+                          "updated_at": {
                             "type": "string"
                           },
-                          "matchScore": {
+                          "match_score": {
                             "type": "number",
                             "description": "Relevance score from 0-1"
                           },
-                          "matchedFields": {
+                          "matched_fields": {
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -4903,11 +4862,11 @@
                           "id",
                           "name",
                           "description",
-                          "organizationId",
-                          "fieldCount",
-                          "createdAt",
-                          "updatedAt",
-                          "matchScore"
+                          "organization_id",
+                          "field_count",
+                          "created_at",
+                          "updated_at",
+                          "match_score"
                         ]
                       }
                     },
@@ -4978,7 +4937,7 @@
         }
       }
     },
-    "/auth/validate": {
+    "/v1/auth/validate": {
       "get": {
         "tags": [
           "Authentication"
@@ -5007,11 +4966,11 @@
                         "id": {
                           "type": "string"
                         },
-                        "firstName": {
+                        "first_name": {
                           "type": "string",
                           "nullable": true
                         },
-                        "lastName": {
+                        "last_name": {
                           "type": "string",
                           "nullable": true
                         },
@@ -5019,10 +4978,10 @@
                           "type": "string",
                           "nullable": true
                         },
-                        "organizationId": {
+                        "organization_id": {
                           "type": "string"
                         },
-                        "organizationName": {
+                        "organization_name": {
                           "type": "string",
                           "nullable": true
                         },
@@ -5041,31 +5000,31 @@
                             "type": "string"
                           }
                         },
-                        "createdAt": {
+                        "created_at": {
                           "type": "string"
                         },
-                        "lastActive": {
+                        "last_active": {
                           "type": "string",
                           "nullable": true
                         }
                       },
                       "required": [
                         "id",
-                        "firstName",
-                        "lastName",
+                        "first_name",
+                        "last_name",
                         "email",
-                        "organizationId",
-                        "organizationName",
+                        "organization_id",
+                        "organization_name",
                         "role",
                         "scopes",
-                        "createdAt",
-                        "lastActive"
+                        "created_at",
+                        "last_active"
                       ]
                     },
                     "token": {
                       "type": "object",
                       "properties": {
-                        "keyPrefix": {
+                        "key_prefix": {
                           "type": "string"
                         },
                         "name": {
@@ -5082,14 +5041,14 @@
                             "type": "string"
                           }
                         },
-                        "createdAt": {
+                        "created_at": {
                           "type": "string"
                         },
-                        "lastUsedAt": {
+                        "last_used_at": {
                           "type": "string",
                           "nullable": true
                         },
-                        "expiresAt": {
+                        "expires_at": {
                           "type": "string",
                           "nullable": true
                         },
@@ -5103,13 +5062,13 @@
                         }
                       },
                       "required": [
-                        "keyPrefix",
+                        "key_prefix",
                         "name",
                         "description",
                         "scopes",
-                        "createdAt",
-                        "lastUsedAt",
-                        "expiresAt",
+                        "created_at",
+                        "last_used_at",
+                        "expires_at",
                         "status"
                       ]
                     },
@@ -5127,10 +5086,10 @@
                           "type": "string",
                           "nullable": true
                         },
-                        "memberCount": {
+                        "member_count": {
                           "type": "number"
                         },
-                        "creditBalance": {
+                        "credit_balance": {
                           "type": "number"
                         }
                       },
@@ -5138,8 +5097,8 @@
                         "id",
                         "name",
                         "status",
-                        "memberCount",
-                        "creditBalance"
+                        "member_count",
+                        "credit_balance"
                       ]
                     }
                   },

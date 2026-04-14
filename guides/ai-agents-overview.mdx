@@ -16,8 +16,8 @@ LithoBlocks templates let your AI agent send Slack messages without generating B
 
 Your agent decides **what** to do and **what** data to send; the LithoBlocks API handles **how** (the Slack message).
 
-1. **Tool/action inputs:** `template_id`, `payload` (and optionally channel/user for send).
-2. **One HTTP call:** POST to the compile or send endpoint; return success or error to the agent.
+1. **Tool/action inputs:** `template_id`, `data` (template fields; you can keep calling this `payload` in your agent and map it to `data` in the request) and optionally a send destination such as `channel_id`.
+2. **One HTTP call:** `POST /v1/templates/compile` or `POST /v1/templates/send` with a JSON body; return success or error to the agent.
 3. **Optional:** Use webhooks for two-way flows (e.g. button click in Slack triggers the agent).
 
 ## Prerequisites
@@ -29,16 +29,16 @@ Your agent decides **what** to do and **what** data to send; the LithoBlocks API
 
 ## Implementing the tool (generic)
 
-- **Base URL:** `https://api.lithoblocks.com`
+- **Base URL:** `https://api.lithoblocks.com` (staging: `https://staging.api.lithoblocks.com`)
 - **Authentication:** `Authorization: Bearer YOUR_LITHOBLOCKS_API_KEY`
-- **Paths:** e.g. `POST /templates/{template_id}/compile`, `POST /templates/{template_id}/send`. See the [API reference](/api-reference/introduction) for all endpoints and parameters.
-- **Body:** JSON in the shape your template expects (same as [sample data](/guides/templates-sample-data)). The agent provides this payload; your tool forwards it to the API.
+- **Paths:** e.g. `POST /v1/templates/compile`, `POST /v1/templates/send` (template id is in the JSON body, not the path). See the [API reference](/api-reference/introduction) for all endpoints and parameters.
+- **Body:** JSON with `template_id` and `data` (same shape as [sample data](/guides/templates-sample-data)); send also requires a destination such as `channel_id` where applicable. The agent supplies these fields; your tool forwards them to the API.
 
 Return the API response (or a short success/error message) to the agent so it can decide the next step.
 
 ## Platform guides
 
-Same pattern in each framework: define a tool that calls the LithoBlocks API with `template_id` and `payload`, then add that tool to your agent.
+Same pattern in each framework: define a tool that calls the LithoBlocks API with `template_id` and `data` (often built from an agent-side `payload`), then add that tool to your agent.
 
 <CardGroup cols={2}>
   <Card title="LangChain" icon="robot" href="/guides/langchain-integration">

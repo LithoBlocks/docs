@@ -51,11 +51,11 @@ Until the integration is available, create a **LithoBlocks API resource** in you
 In any Retool app or workflow that can call this resource:
 
 1. **API path** — Provide the path for the operation you need. Examples:
-   - Compile a template: `POST /templates/{template_id}/compile` (replace `{template_id}` with the template ID, e.g. from state or a dropdown).
-   - Send a message: `POST /templates/{template_id}/send` (see [API reference](/api-reference/introduction) for the send endpoint and parameters).
-   - List templates: `GET /templates`.
-2. **Query params** — Add any query parameters the endpoint requires (e.g. `include_sample_data=true` for templates). Set them in the query configuration when you invoke the resource.
-3. **Body** — For POST/PUT/PATCH, include the request body as required by the endpoint. For compile or send, the body is JSON in the shape your template expects (same as [sample data](/guides/templates-sample-data)). Use Retool bindings to map form fields, table data, or state into this structure.
+   - Compile a template: `POST /v1/templates/compile` (template id is in the JSON body, not the path).
+   - Send a message: `POST /v1/templates/send` (see [API reference](/api-reference/introduction) for body fields such as `channel_id`).
+   - List templates: `GET /v1/templates`.
+2. **Query params** — Add any query parameters the endpoint requires (e.g. `include_sample_data=true` for list templates). Set them in the query configuration when you invoke the resource.
+3. **Body** — For compile or send, the body is JSON with `template_id`, `data` (same shape as [sample data](/guides/templates-sample-data)), and for send a destination as documented. Use Retool bindings to map form fields, table data, or state into `data`.
 4. Run the query (e.g. on button click, form submit, or workflow trigger). The response contains the API result (compiled blocks, send confirmation, or list data).
 
 See the [API reference](/api-reference/introduction) for all endpoints, parameters, and response shapes. See [Quickstart](/quickstart) and [Placeholders](/guides/templates-placeholders) for template and data structure.

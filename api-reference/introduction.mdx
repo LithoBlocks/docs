@@ -5,10 +5,19 @@ description: "LithoBlocks API — manage templates, entities, and organizations 
 
 The LithoBlocks API lets you manage templates, entities, and organizations programmatically with scope-based authorization. Use it to create and update templates, compile messages, manage entities, and administer your organization. The API supports both **compile** (get JSON blocks and send from your own system) and **send** (LithoBlocks posts via its Slack app with full platform features); see [Compile vs send](/architecture/compile-vs-send) for when to use which.
 
-## Base URL
+## Base URLs
 
 - **Production:** `https://api.lithoblocks.com`
-- **Development:** `http://localhost:8787`
+- **Staging:** `https://staging.api.lithoblocks.com`
+- **Local development:** `http://localhost:8787`
+
+## API paths and JSON
+
+Documented routes use the **`/v1`** prefix (for example `GET /v1/templates`, `POST /v1/templates/send`). **New integrations should use these URLs.** Older clients may still call the same operations without `/v1` (for example `GET /templates`); those URLs remain supported for backward compatibility but are not listed in the OpenAPI reference.
+
+Request and response bodies in the reference use **snake_case** keys (for example `template_id`, `created_at`). During a deprecation window, many inputs still accept legacy **camelCase** keys (for example `templateId`). Prefer snake_case for new code.
+
+**Compile and send** use fixed paths with the template id in the JSON body, not in the URL path: `POST /v1/templates/compile` and `POST /v1/templates/send` with `template_id` and `data` (see each operation in the sidebar for full schemas, including send destinations such as `channel_id`).
 
 ## Authentication
 
